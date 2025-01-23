@@ -18,4 +18,4 @@ ORIGINAL_SPEC_PATH=${ORIGINAL_SPEC_PATH:-spec/openapi.json}
   jq .components < ${ORIGINAL_SPEC_PATH}
   echo '}'
 } | jq . | tee ${SPEC_PATH:-spec/spec.json}
-#rm -v ${ORIGINAL_SPEC_PATH}
+rm -v ${ORIGINAL_SPEC_PATH}

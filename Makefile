@@ -3,7 +3,8 @@ NAME=sakura_vps_client_go
 all: download_spec extract_cc_spec generate_models modify_gitignore put_readme
 
 put_readme:
-	./put_readme.sh
+	./put_readme.sh;\
+	rm -rv spec
 
 modify_gitignore:
 	echo /.idea >> .gitignore
@@ -16,7 +17,7 @@ generate_models: spec/spec.json
 		--package-name sakura_vps_client_go \
 		--git-repo-id sakura_vps_client_go \
 		--git-user-id g1eng \
-		-o . 
+		-o .
 
 download_spec:
 	[ -d spec ] || mkdir spec \
