@@ -4,14 +4,13 @@ on:
   pull_request:
     branches:
       - main
-      - dev
+      - sync
+      - fix-gha
   push:
     branches:
       - main
-#  push:
-#    branches:
-#      - master
-#      - dev
+      - sync
+      - fix-gha
 jobs:
   build:
     runs-on: ubuntu-latest
