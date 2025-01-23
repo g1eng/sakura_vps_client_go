@@ -1,9 +1,5 @@
 openapi: 3.0.0
 info:
-  contact:
-    name: さくらのVPS マニュアル - API
-    url: https://manual.sakura.ad.jp/vps/api/index.html
-  termsOfService: https://www.sakura.ad.jp/agreement/
   title: さくらのVPS APIドキュメント
   version: 4.3.0
   x-logo:

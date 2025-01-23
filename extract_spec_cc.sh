@@ -7,7 +7,7 @@ ORIGINAL_SPEC_PATH=${ORIGINAL_SPEC_PATH:-spec/openapi.json}
   echo '"openapi":'
   jq .openapi < ${ORIGINAL_SPEC_PATH}
   echo ',"info":'
-  jq '.info| del(.license,.description)' < ${ORIGINAL_SPEC_PATH}
+  jq '.info| del(.license,.termsOfService,.contact,.description)' < ${ORIGINAL_SPEC_PATH}
   echo ',"servers":'
   jq .servers < ${ORIGINAL_SPEC_PATH}
   echo ',"security":'

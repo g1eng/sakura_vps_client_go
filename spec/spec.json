@@ -3,11 +3,6 @@
   "info": {
     "version": "4.3.0",
     "title": "さくらのVPS APIドキュメント",
-    "termsOfService": "https://www.sakura.ad.jp/agreement/",
-    "contact": {
-      "name": "さくらのVPS マニュアル - API",
-      "url": "https://manual.sakura.ad.jp/vps/api/index.html"
-    },
     "x-logo": {
       "url": "logo.svg",
       "altText": "さくらのVPS APIドキュメント"
