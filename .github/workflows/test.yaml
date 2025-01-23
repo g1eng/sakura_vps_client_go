@@ -1,0 +1,29 @@
+name: test
+
+on:
+  pull_request:
+    branches:
+      - master
+      - dev
+  push:
+    branches:
+      - master
+#  push:
+#    branches:
+#      - master
+#      - dev
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.23
+      - name: download openapi-generator
+        run: wget -O openapi-generator-cli.jar  "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.8.0/openapi-generator-cli-7.8.0.jar"
+      - name: install wrapper script
+        run: sudo sh -c "printf -- \#!/bin/sh\ -ex\\\njava\ -jar\ openapi-generator-cli.jar\ \\\$@\\\n > /usr/bin/openapi-generator; chmod +x /usr/bin/openapi-generator"
+      - name: download the latest spec, generate codes and readme
+        run: make 

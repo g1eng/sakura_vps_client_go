@@ -1,0 +1,6062 @@
+openapi: 3.0.0
+info:
+  contact:
+    name: さくらのVPS マニュアル - API
+    url: https://manual.sakura.ad.jp/vps/api/index.html
+  termsOfService: https://www.sakura.ad.jp/agreement/
+  title: さくらのVPS APIドキュメント
+  version: 4.3.0
+  x-logo:
+    url: logo.svg
+    altText: さくらのVPS APIドキュメント
+servers:
+- url: https://secure.sakura.ad.jp/vps/api/v7
+security:
+- ApiKeyAuth: []
+paths:
+  /servers:
+    get:
+      operationId: get-server-list
+      parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      - description: idで絞り込む。カンマ区切りで100件まで指定可能。
+        explode: true
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: |-
+          switchのid
+          対象のスイッチに接続されているサーバーに絞り込む
+        explode: true
+        in: query
+        name: switch
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: |-
+          ゾーンコードで絞り込む
+          * tk1 東京第1
+          * tk2 東京第2
+          * tk3 東京第3
+          * os1 大阪第1
+          * os2 大阪第2
+          * os3 大阪第3
+          * is1 石狩第1
+        explode: true
+        in: query
+        name: zone_code
+        required: false
+        schema:
+          enum:
+          - tk1
+          - tk2
+          - tk3
+          - os1
+          - os2
+          - os3
+          - is1
+          type: string
+        style: form
+      - description: サービスタイプで絞り込む
+        explode: true
+        in: query
+        name: service_type
+        required: false
+        schema:
+          enum:
+          - linux
+          - windows
+          type: string
+        style: form
+      - description: IPアドレスで絞り込む
+        explode: true
+        in: query
+        name: ipv4_address
+        required: false
+        schema:
+          example: 192.0.2.0
+          type: string
+        style: form
+      - description: サーバー監視リソースIDで絞り込む
+        explode: true
+        in: query
+        name: monitoring_resource_id
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "データの並び順。項目名の頭に`-`をつけると降順で取得する  \n例:\n* サービスコード昇順: sort=service_code\n\
+          * サービスコード降順: sort=-service_code"
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          enum:
+          - service_code
+          - -service_code
+          - name
+          - -name
+          - storage_size_gibibytes
+          - -storage_size_gibibytes
+          - memory_mebibytes
+          - -memory_mebibytes
+          - cpu_cores
+          - -cpu_cores
+          - hostname
+          - -hostname
+          - ipv6_hostname
+          - -ipv6_hostname
+          - ipv4_address
+          - -ipv4_address
+          - ipv6_address
+          - -ipv6_address
+          - zone_code
+          - -zone_code
+          - ipv4_ptr
+          - -ipv4_ptr
+          - ipv6_ptr
+          - -ipv6_ptr
+          type: string
+        style: form
+      - description: 名前、説明文、ホスト名、ipv4アドレス、ipv6アドレス、サービスコードから部分一致検索
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_200_response'
+          description: 成功
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: サーバー情報一覧を取得する
+      tags:
+      - server
+  /servers/{server_id}:
+    get:
+      operationId: get-server
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server'
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: サーバー情報を取得する
+      tags:
+      - server
+    put:
+      operationId: put-server
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/put_server_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server'
+          description: 成功
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: サーバー情報を更新する
+      tags:
+      - server
+  /servers/{server_id}/power-status:
+    get:
+      operationId: get-server-power-status
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerPowerStatus'
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails503'
+          description: ホストから電源状態が取得できない
+      summary: サーバーの電源状態を取得する
+      tags:
+      - server
+  /servers/{server_id}/power-on:
+    post:
+      operationId: post-server-power-on
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "202":
+          description: サーバー起動コマンドの送信を完了
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーが見つからない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails409'
+          description: 電源操作が行えない状態（スケールアップ中など）
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails503'
+          description: ホストが電源操作を受け付けない
+      summary: サーバーを起動する
+      tags:
+      - server
+  /servers/{server_id}/shutdown:
+    post:
+      operationId: post-server-shutdown
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/post_server_shutdown_request'
+      responses:
+        "202":
+          description: シャットダウンコマンドの送信を完了
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーが見つからない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails409'
+          description: 電源操作が行えない状態（スケールアップ中など）
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails503'
+          description: ホストが電源操作を受け付けない
+      summary: サーバーをシャットダウンする
+      tags:
+      - server
+  /servers/{server_id}/force-reboot:
+    post:
+      operationId: post-server-force-reboot
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "202":
+          description: 強制再起動コマンドの送信を完了
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーが見つからない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails409'
+          description: 電源操作が行えない状態（スケールアップ中など）
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails503'
+          description: ホストが電源操作を受け付けない
+      summary: サーバーを強制再起動する
+      tags:
+      - server
+  /servers/{server_id}/mount-disc:
+    post:
+      operationId: post-server-mount-disc
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/post_server_mount_disc_request'
+      responses:
+        "200":
+          description: マウント完了
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーが見つからない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails409'
+          description: ディスク操作が行えない状態（電源がOFFなど）
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails503'
+          description: ホストがディスク操作を受け付けない
+      summary: サーバーにディスクをマウントする
+      tags:
+      - server
+  /servers/{server_id}/vnc-console-keymap:
+    get:
+      operationId: get-server-vnc-console-keymap
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Keymap'
+          description: 取得完了
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: コンパネのVNCコンソールのキーマップ情報を取得する
+      tags:
+      - server
+    put:
+      operationId: put-server-vnc-console-keymap
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Keymap'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Keymap'
+          description: 成功。サーバーの再起動をすることで設定が反映される
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails503'
+          description: ホストがキーマップ操作を受け付けない
+      summary: コンパネのVNCコンソールのキーマップ情報を変更する
+      tags:
+      - server
+  /servers/{server_id}/ipv4-ptr:
+    put:
+      operationId: put-server-ipv4-ptr
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/put_server_ipv4_ptr_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/put_server_ipv4_ptr_200_response'
+          description: 設定完了
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails503'
+          description: DNSの情報取得または設定に失敗した
+      summary: サーバーのipv4の逆引きホスト名を更新する
+      tags:
+      - server
+  /servers/{server_id}/interfaces:
+    get:
+      operationId: get-server-interface-list
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_interface_list_200_response'
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: サーバーのインターフェース情報一覧を取得する
+      tags:
+      - server
+  /servers/{server_id}/interfaces/{interface_id}:
+    get:
+      operationId: get-server-interface
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      - description: サーバーインターフェースID
+        explode: false
+        in: path
+        name: interface_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerInterface'
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: インターフェースが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: サーバーのインターフェース情報を取得する
+      tags:
+      - server
+    put:
+      operationId: put-server-interface
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      - description: サーバーインターフェースID
+        explode: false
+        in: path
+        name: interface_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServerInterface'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerInterface'
+          description: 成功
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: インターフェースが見つからない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails409'
+          description: 接続が行えない状態
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails503'
+          description: 一時的に接続操作を受け付けない
+      summary: サーバーのインターフェース情報を更新する
+      tags:
+      - server
+  /servers/{server_id}/ipv6-ptr:
+    put:
+      operationId: put-server-ipv6-ptr
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/put_server_ipv4_ptr_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/put_server_ipv4_ptr_200_response'
+          description: 設定完了
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails503'
+          description: DNSの情報取得または設定に失敗した
+      summary: サーバーのipv6の逆引きホスト名を更新する
+      tags:
+      - server
+  /servers/{server_id}/video-device:
+    get:
+      operationId: get-server-video-device
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_video_device_200_response'
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails503'
+          description: ビデオデバイス情報の取得に失敗した
+      summary: サーバーのビデオデバイスの設定を取得する
+      tags:
+      - server
+    put:
+      operationId: put-server-video-device
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/put_server_video_device_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/put_server_video_device_request'
+          description: 成功。サーバーの再起動をすることで設定が反映される
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails503'
+          description: ビデオデバイス情報の設定に失敗した
+      summary: サーバーのビデオデバイスの設定を更新する
+      tags:
+      - server
+  /servers/{server_id}/limitation:
+    get:
+      operationId: get-server-limitation
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Limitation'
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails503'
+          description: サーバーの制限情報の取得に失敗した
+      summary: サーバーの制限情報を取得する
+      tags:
+      - server
+  /servers/{server_id}/monitorings:
+    get:
+      operationId: get-server-monitoring-list
+      parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      - description: サーバー監視リソースIDで絞り込む
+        explode: true
+        in: query
+        name: monitoring_resource_id
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_monitoring_list_200_response'
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: サーバーのサーバー監視情報一覧を取得する
+      tags:
+      - server
+    post:
+      operationId: post-server-monitoring
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServerMonitoring'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerMonitoring'
+          description: 成功
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーが見つからない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails409'
+          description: サーバー監視を作成できない状態（作成上限数超過など）
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: サーバーのサーバー監視を作成する
+      tags:
+      - server
+  /servers/{server_id}/monitorings/{server_monitoring_id}:
+    delete:
+      operationId: delete-server-monitorings
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      - description: サーバー監視ID
+        explode: false
+        in: path
+        name: server_monitoring_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "204":
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーまたはサーバー監視が見つからない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails409'
+          description: サーバー監視を削除できない状態（更新ステータスが更新完了でないなど）
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: サーバーのサーバー監視情報を削除する
+      tags:
+      - server
+    get:
+      operationId: get-server-monitoring
+      parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      - description: サーバー監視ID
+        explode: false
+        in: path
+        name: server_monitoring_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerMonitoring'
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーまたはサーバー監視が見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: サーバーのサーバー監視情報を取得する
+      tags:
+      - server
+    put:
+      operationId: put-server-monitoring
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      - description: サーバー監視ID
+        explode: false
+        in: path
+        name: server_monitoring_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServerMonitoring'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerMonitoring'
+          description: 成功
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーが見つからない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails409'
+          description: サーバー監視を更新できない状態（更新ステータスが更新完了でないなど）
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: サーバーのサーバー監視情報を更新する
+      tags:
+      - server
+  /servers/{server_id}/monitorings/{server_monitoring_id}/health:
+    get:
+      operationId: get-server-monitoring-health
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      - description: サーバー監視ID
+        explode: false
+        in: path
+        name: server_monitoring_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerMonitoringHealth'
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーまたはサーバー監視が見つからない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails409'
+          description: 監視状態を取得できない状態（更新ステータスが更新完了でないなど）
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: サーバー監視の監視状態を取得する
+      tags:
+      - server
+  /nfs-servers:
+    get:
+      operationId: get-nfs-server-list
+      parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      - description: idで絞り込む。カンマ区切りで100件まで指定可能。
+        explode: true
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: |-
+          switchのid
+          対象のスイッチに接続されているサーバーに絞り込む
+        explode: true
+        in: query
+        name: switch
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: |-
+          ゾーンコードで絞り込む
+          * tk1 東京第1
+          * tk2 東京第2
+          * tk3 東京第3
+          * os1 大阪第1
+          * os2 大阪第2
+          * os3 大阪第3
+          * is1 石狩第1
+        explode: true
+        in: query
+        name: zone_code
+        required: false
+        schema:
+          enum:
+          - tk1
+          - tk2
+          - tk3
+          - os1
+          - os2
+          - os3
+          - is1
+          type: string
+        style: form
+      - description: "データの並び順。項目名の頭に`-`をつけると降順で取得する  \n例:\n* サービスコード昇順: sort=service_code\n\
+          * サービスコード降順: sort=-service_code"
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          enum:
+          - service_code
+          - -service_code
+          - name
+          - -name
+          - storage_size_gibibytes
+          - -storage_size_gibibytes
+          - ipv4_address
+          - -ipv4_address
+          - zone_code
+          - -zone_code
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_nfs_server_list_200_response'
+          description: 成功
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: NFS情報一覧を取得する
+      tags:
+      - nfs-server
+  /nfs-servers/{nfs_server_id}:
+    get:
+      operationId: get-nfs-server
+      parameters:
+      - description: NFSのID
+        explode: false
+        in: path
+        name: nfs_server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NfsServer'
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: NFSが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: NFS情報を取得する
+      tags:
+      - nfs-server
+    put:
+      operationId: put-nfs-server
+      parameters:
+      - description: NFSのID
+        explode: false
+        in: path
+        name: nfs_server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/put_server_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NfsServer'
+          description: 成功
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: NFSが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: NFS情報を更新する
+      tags:
+      - nfs-server
+  /nfs-servers/{nfs_server_id}/change-ipv4:
+    post:
+      operationId: post-nfs-server-change-ipv4
+      parameters:
+      - description: NFSのID
+        explode: false
+        in: path
+        name: nfs_server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/post_nfs_server_change_ipv4_request'
+      responses:
+        "202":
+          description: ipv4の設定のリクエストの送信を完了
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: NFSが見つからない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails409'
+          description: ipv4の設定が行えない状態にある（すでにipv4の設定中である場合やNFSが起動されていない場合など）
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails503'
+          description: ipv4の設定のリクエストの送信に失敗した
+      summary: NFSのipv4を更新する
+      tags:
+      - nfs-server
+  /nfs-servers/{nfs_server_id}/power-status:
+    get:
+      operationId: get-nfs-server-power-status
+      parameters:
+      - description: NFSのID
+        explode: false
+        in: path
+        name: nfs_server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NfsServerPowerStatus'
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: サーバーが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails503'
+          description: 電源状態が取得できない
+      summary: NFSの電源状態を取得する
+      tags:
+      - nfs-server
+  /nfs-servers/{nfs_server_id}/interface:
+    get:
+      operationId: get-nfs-server-interface
+      parameters:
+      - description: NFSのID
+        explode: false
+        in: path
+        name: nfs_server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NfsServerInterface'
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: NFSが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: NFSのインターフェースを取得する
+      tags:
+      - nfs-server
+    put:
+      operationId: put-nfs-server-interface
+      parameters:
+      - description: NFSのID
+        explode: false
+        in: path
+        name: nfs_server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NfsServerInterface'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NfsServerInterface'
+          description: 成功
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: NFSが見つからない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails409'
+          description: 接続が行えない状態（電源がオフになっていない）
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails503'
+          description: 一時的に接続操作を受け付けない
+      summary: NFSのインターフェース情報を更新する
+      tags:
+      - nfs-server
+  /switches:
+    get:
+      operationId: get-switch-list
+      parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      - description: idで絞り込む。カンマ区切りで100件まで指定可能。
+        explode: true
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: |-
+          ゾーンコードで絞り込む
+          * tk1 東京第1
+          * tk2 東京第2
+          * tk3 東京第3
+          * os1 大阪第1
+          * os2 大阪第2
+          * os3 大阪第3
+          * is1 石狩第1
+        explode: true
+        in: query
+        name: zone_code
+        required: false
+        schema:
+          enum:
+          - tk1
+          - tk2
+          - tk3
+          - os1
+          - os2
+          - os3
+          - is1
+          type: string
+        style: form
+      - description: |-
+          interfaceのid
+          対象のインターフェースに接続されているスイッチに絞り込む
+        explode: true
+        in: query
+        name: interface
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: "データの並び順。項目名の頭に`-`をつけると降順で取得する  \n例:\n* 接続インターフェース数昇順: sort=interfaces_count\n\
+          * 接続インターフェース数降順: sort=-interfaces_count"
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          enum:
+          - name
+          - -name
+          - zone
+          - -zone
+          - interfaces_count
+          - -interfaces_count
+          type: string
+        style: form
+      - description: 名前と説明文から部分一致検索
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_switch_list_200_response'
+          description: 成功
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: スイッチ情報一覧を取得する
+      tags:
+      - switch
+    post:
+      description: 同一ゾーン内で作成可能なスイッチ数は最大20です
+      operationId: post-switch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/post_switch_request'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/post_switch_201_response'
+          description: 作成完了
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails409'
+          description: 作成上限に達している
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: スイッチを作成する
+      tags:
+      - switch
+  /switches/{switch_id}:
+    delete:
+      operationId: delete-switch
+      parameters:
+      - description: スイッチID
+        explode: false
+        in: path
+        name: switch_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "204":
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: スイッチが見つからない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails409'
+          description: 削除が行えない状態（接続が残っている）
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: スイッチを削除する
+      tags:
+      - switch
+    get:
+      operationId: get-switch
+      parameters:
+      - description: スイッチID
+        explode: false
+        in: path
+        name: switch_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Switch'
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: スイッチが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: スイッチ情報を取得する
+      tags:
+      - switch
+    put:
+      operationId: put-switch
+      parameters:
+      - description: スイッチID
+        explode: false
+        in: path
+        name: switch_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Switch'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Switch'
+          description: 成功
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: スイッチが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: スイッチ情報を更新する
+      tags:
+      - switch
+  /discs:
+    get:
+      description: 追加ソフトウェアのディスク情報です。WindowsのCDドライブにマウントして利用します。
+      operationId: get-disc-list
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_disc_list_200_response'
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: ディスク情報一覧を取得する
+      tags:
+      - disc
+  /zones:
+    get:
+      operationId: get-zone-list
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_zone_list_200_response'
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: ゾーン情報一覧を取得する
+      tags:
+      - zone
+  /api-keys:
+    get:
+      operationId: get-api-key-list
+      parameters:
+      - description: "データの並び順。項目名の頭に`-`をつけると降順で取得する  \n例:\n* 名称昇順: sort=name\n* 名称\
+          降順: sort=-name"
+        explode: true
+        in: query
+        name: order
+        required: false
+        schema:
+          enum:
+          - id
+          - -id
+          - name
+          - -name
+          type: string
+        style: form
+      - description: roleのid。ロールで絞り込む
+        explode: true
+        in: query
+        name: role
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: 名前から部分一致検索
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_api_key_list_200_response'
+          description: 成功
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: APIキーの一覧を取得する
+      tags:
+      - api-key
+    post:
+      operationId: post-api-key
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiKey'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+          description: 成功
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails409'
+          description: APIキーを作成できない状態。上限を超えているなど。
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: APIキーを作成する
+      tags:
+      - api-key
+  /api-keys/{api_key_id}:
+    delete:
+      operationId: delete-api-key
+      parameters:
+      - description: APIキーID
+        explode: false
+        in: path
+        name: api_key_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "204":
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: APIキーが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: APIキーを削除する
+      tags:
+      - api-key
+    get:
+      operationId: get-api-key
+      parameters:
+      - description: APIキーID
+        explode: false
+        in: path
+        name: api_key_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: APIキーが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: APIキーを取得する
+      tags:
+      - api-key
+    put:
+      operationId: put-api-key
+      parameters:
+      - description: APIキーID
+        explode: false
+        in: path
+        name: api_key_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiKey'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+          description: 成功
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: APIキーが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: APIキーを更新する
+      tags:
+      - api-key
+  /api-keys/{api_key_id}/rotate:
+    post:
+      operationId: post-api-key-rotate
+      parameters:
+      - description: APIキーID
+        explode: false
+        in: path
+        name: api_key_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: APIキーが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: APIキーのトークンのローテーションを行う
+      tags:
+      - api-key
+  /roles:
+    get:
+      operationId: get-role-list
+      parameters:
+      - description: "データの並び順。項目名の頭に`-`をつけると降順で取得する  \n例:\n* 名称昇順: sort=name\n* 名称\
+          降順: sort=-name"
+        explode: true
+        in: query
+        name: order
+        required: false
+        schema:
+          enum:
+          - id
+          - -id
+          - name
+          - -name
+          type: string
+        style: form
+      - description: 名前と説明文から部分一致検索
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_role_list_200_response'
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: ロール一覧を取得する
+      tags:
+      - api-key
+    post:
+      operationId: post-role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Role'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+          description: 成功
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails409'
+          description: ロールを作成できない状態。上限を超えているなど。
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: ロールを作成する
+      tags:
+      - api-key
+  /roles/{role_id}:
+    delete:
+      operationId: delete-role
+      parameters:
+      - description: ロールID
+        explode: false
+        in: path
+        name: role_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "204":
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: ロールが見つからない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails409'
+          description: ロールを削除できない状態。紐づいているAPIキーがあるなど。
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: ロールを削除する
+      tags:
+      - api-key
+    get:
+      operationId: get-role
+      parameters:
+      - description: ロールID
+        explode: false
+        in: path
+        name: role_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: ロールが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: ロールを取得する
+      tags:
+      - api-key
+    put:
+      operationId: put-role
+      parameters:
+      - description: ロールID
+        explode: false
+        in: path
+        name: role_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Role'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+          description: 成功
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails400'
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: ロールが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: ロールを更新する
+      tags:
+      - api-key
+  /permissions:
+    get:
+      operationId: get-permission-list
+      parameters:
+      - description: カテゴリーで絞り込む
+        example: server
+        explode: true
+        in: query
+        name: category
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: コードで絞り込む。カンマ区切りで複数指定可能。
+        example: "get-server-list,get-server,put-server"
+        explode: true
+        in: query
+        name: code
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_permission_list_200_response'
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: 権限の一覧を取得する
+      tags:
+      - api-key
+components:
+  parameters:
+    PaginationPage:
+      explode: true
+      in: query
+      name: page
+      required: false
+      schema:
+        type: integer
+      style: form
+    PaginationPerPage:
+      explode: true
+      in: query
+      name: per_page
+      required: false
+      schema:
+        default: 10
+        maximum: 100
+        minimum: 1
+        type: integer
+      style: form
+    ServerID:
+      description: サーバーID
+      explode: false
+      in: path
+      name: server_id
+      required: true
+      schema:
+        type: integer
+      style: simple
+    ServerInterfaceID:
+      description: サーバーインターフェースID
+      explode: false
+      in: path
+      name: interface_id
+      required: true
+      schema:
+        type: integer
+      style: simple
+    ServerMonitoringID:
+      description: サーバー監視ID
+      explode: false
+      in: path
+      name: server_monitoring_id
+      required: true
+      schema:
+        type: integer
+      style: simple
+    NfsServerID:
+      description: NFSのID
+      explode: false
+      in: path
+      name: nfs_server_id
+      required: true
+      schema:
+        type: integer
+      style: simple
+    SwitchIDPath:
+      description: スイッチID
+      explode: false
+      in: path
+      name: switch_id
+      required: true
+      schema:
+        type: integer
+      style: simple
+    SwitchID:
+      description: |-
+        switchのid
+        対象のスイッチに接続されているサーバーに絞り込む
+      explode: true
+      in: query
+      name: switch
+      required: false
+      schema:
+        type: integer
+      style: form
+    InterfaceID:
+      description: |-
+        interfaceのid
+        対象のインターフェースに接続されているスイッチに絞り込む
+      explode: true
+      in: query
+      name: interface
+      required: false
+      schema:
+        type: integer
+      style: form
+    ZoneCode:
+      description: |-
+        ゾーンコードで絞り込む
+        * tk1 東京第1
+        * tk2 東京第2
+        * tk3 東京第3
+        * os1 大阪第1
+        * os2 大阪第2
+        * os3 大阪第3
+        * is1 石狩第1
+      explode: true
+      in: query
+      name: zone_code
+      required: false
+      schema:
+        enum:
+        - tk1
+        - tk2
+        - tk3
+        - os1
+        - os2
+        - os3
+        - is1
+        type: string
+      style: form
+    ServiceType:
+      description: サービスタイプで絞り込む
+      explode: true
+      in: query
+      name: service_type
+      required: false
+      schema:
+        enum:
+        - linux
+        - windows
+        type: string
+      style: form
+    Ipv4Address:
+      description: IPアドレスで絞り込む
+      explode: true
+      in: query
+      name: ipv4_address
+      required: false
+      schema:
+        example: 192.0.2.0
+        type: string
+      style: form
+    ServerSearch:
+      description: 名前、説明文、ホスト名、ipv4アドレス、ipv6アドレス、サービスコードから部分一致検索
+      explode: true
+      in: query
+      name: search
+      required: false
+      schema:
+        type: string
+      style: form
+    MonitoringResourceId:
+      description: サーバー監視リソースIDで絞り込む
+      explode: true
+      in: query
+      name: monitoring_resource_id
+      required: false
+      schema:
+        type: string
+      style: form
+    IDList:
+      description: idで絞り込む。カンマ区切りで100件まで指定可能。
+      explode: true
+      in: query
+      name: id
+      required: false
+      schema:
+        type: string
+      style: form
+    ServerSortOrder:
+      description: "データの並び順。項目名の頭に`-`をつけると降順で取得する  \n例:\n* サービスコード昇順: sort=service_code\n\
+        * サービスコード降順: sort=-service_code"
+      explode: true
+      in: query
+      name: sort
+      required: false
+      schema:
+        enum:
+        - service_code
+        - -service_code
+        - name
+        - -name
+        - storage_size_gibibytes
+        - -storage_size_gibibytes
+        - memory_mebibytes
+        - -memory_mebibytes
+        - cpu_cores
+        - -cpu_cores
+        - hostname
+        - -hostname
+        - ipv6_hostname
+        - -ipv6_hostname
+        - ipv4_address
+        - -ipv4_address
+        - ipv6_address
+        - -ipv6_address
+        - zone_code
+        - -zone_code
+        - ipv4_ptr
+        - -ipv4_ptr
+        - ipv6_ptr
+        - -ipv6_ptr
+        type: string
+      style: form
+    NfsServerSortOrder:
+      description: "データの並び順。項目名の頭に`-`をつけると降順で取得する  \n例:\n* サービスコード昇順: sort=service_code\n\
+        * サービスコード降順: sort=-service_code"
+      explode: true
+      in: query
+      name: sort
+      required: false
+      schema:
+        enum:
+        - service_code
+        - -service_code
+        - name
+        - -name
+        - storage_size_gibibytes
+        - -storage_size_gibibytes
+        - ipv4_address
+        - -ipv4_address
+        - zone_code
+        - -zone_code
+        type: string
+      style: form
+    SwitchSortOrder:
+      description: "データの並び順。項目名の頭に`-`をつけると降順で取得する  \n例:\n* 接続インターフェース数昇順: sort=interfaces_count\n\
+        * 接続インターフェース数降順: sort=-interfaces_count"
+      explode: true
+      in: query
+      name: sort
+      required: false
+      schema:
+        enum:
+        - name
+        - -name
+        - zone
+        - -zone
+        - interfaces_count
+        - -interfaces_count
+        type: string
+      style: form
+    SwitchSearch:
+      description: 名前と説明文から部分一致検索
+      explode: true
+      in: query
+      name: search
+      required: false
+      schema:
+        type: string
+      style: form
+    DiscID:
+      description: ディスクID
+      explode: false
+      in: path
+      name: disc_id
+      required: true
+      schema:
+        type: integer
+      style: simple
+    RoleIDPath:
+      description: ロールID
+      explode: false
+      in: path
+      name: role_id
+      required: true
+      schema:
+        type: integer
+      style: simple
+    RoleID:
+      description: roleのid。ロールで絞り込む
+      explode: true
+      in: query
+      name: role
+      required: false
+      schema:
+        type: integer
+      style: form
+    RoleSortOrder:
+      description: "データの並び順。項目名の頭に`-`をつけると降順で取得する  \n例:\n* 名称昇順: sort=name\n* 名称降順\
+        : sort=-name"
+      explode: true
+      in: query
+      name: order
+      required: false
+      schema:
+        enum:
+        - id
+        - -id
+        - name
+        - -name
+        type: string
+      style: form
+    RoleSearch:
+      description: 名前と説明文から部分一致検索
+      explode: true
+      in: query
+      name: search
+      required: false
+      schema:
+        type: string
+      style: form
+    ApiKeyID:
+      description: APIキーID
+      explode: false
+      in: path
+      name: api_key_id
+      required: true
+      schema:
+        type: integer
+      style: simple
+    ApiKeySortOrder:
+      description: "データの並び順。項目名の頭に`-`をつけると降順で取得する  \n例:\n* 名称昇順: sort=name\n* 名称降順\
+        : sort=-name"
+      explode: true
+      in: query
+      name: order
+      required: false
+      schema:
+        enum:
+        - id
+        - -id
+        - name
+        - -name
+        type: string
+      style: form
+    ApiKeySearch:
+      description: 名前から部分一致検索
+      explode: true
+      in: query
+      name: search
+      required: false
+      schema:
+        type: string
+      style: form
+    Category:
+      description: カテゴリーで絞り込む
+      example: server
+      explode: true
+      in: query
+      name: category
+      required: false
+      schema:
+        type: string
+      style: form
+    Code:
+      description: コードで絞り込む。カンマ区切りで複数指定可能。
+      example: "get-server-list,get-server,put-server"
+      explode: true
+      in: query
+      name: code
+      required: false
+      schema:
+        type: string
+      style: form
+  responses:
+    Generic400:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails400'
+      description: 入力値検証エラー
+    Generic401:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/get_server_list_401_response'
+      description: 未ログイン
+    Generic403:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/get_server_list_403_response'
+      description: 権限がない
+    Generic429:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails429'
+      description: リクエスト可能数に達している
+      headers:
+        Retry-After:
+          description: リクエストが可能になるまでの秒数
+          explode: false
+          schema:
+            example: 60
+            type: integer
+          style: simple
+  schemas:
+    Pagination:
+      properties:
+        count:
+          description: データ総数
+          example: 100
+          type: integer
+        next:
+          description: 次のページへのURL
+          example: https://api.example.com/?page=3&per_page=10
+          format: uri
+          nullable: true
+          type: string
+        previous:
+          description: 前のページへのURL
+          example: https://api.example.com/?per_page=10
+          format: uri
+          nullable: true
+          type: string
+      required:
+      - count
+      - next
+      - previous
+      type: object
+    InvalidParameterDetail:
+      items:
+        $ref: '#/components/schemas/InvalidParameterDetail_inner'
+      type: array
+    ProblemDetails400:
+      example:
+        code: invalid
+        message: Invalid input.
+        errors:
+          foo:
+          - code: required
+            message: この項目は必須です
+      properties:
+        code:
+          description: |-
+            エラー内容を示す簡潔な識別子
+            * `invalid` - 不正なリクエスト値,リクエスト値が妥当でない
+            * `parse_error` - 不正な形式,リクエスト値を読み取ることができない
+            * `bad_request` - リクエストの内容に何らかの問題がある
+          enum:
+          - invalid
+          - parse_error
+          - bad_request
+          type: string
+        message:
+          description: エラーの内容
+          example: Invalid input.
+          type: string
+        errors:
+          $ref: '#/components/schemas/ProblemDetails400_errors'
+      type: object
+    ProblemDetails404:
+      example:
+        code: not_found
+        message: 見つかりませんでした。
+      properties:
+        code:
+          enum:
+          - not_found
+          type: string
+        message:
+          description: エラーの内容
+          example: 見つかりませんでした。
+          type: string
+      type: object
+    ProblemDetails409:
+      example:
+        code: conflict
+        message: 状態の競合によりリクエストを処理できません。
+      properties:
+        code:
+          enum:
+          - conflict
+          type: string
+        message:
+          description: エラーの内容
+          example: 状態の競合によりリクエストを処理できません。
+          type: string
+      type: object
+    ProblemDetails429:
+      example:
+        code: throttled
+        message: リクエストの処理は絞られました。 Expected available in xxxxxxx.
+      properties:
+        code:
+          enum:
+          - throttled
+          type: string
+        message:
+          description: エラーの内容
+          example: リクエストの処理は絞られました。 Expected available in xxxxxxx.
+          type: string
+      type: object
+    ProblemDetails503:
+      example:
+        code: temporary_unavailable
+        message: 一時的にご利用になれません。
+      properties:
+        code:
+          enum:
+          - temporary_unavailable
+          type: string
+        message:
+          description: エラーの内容
+          example: 一時的にご利用になれません。
+          type: string
+      type: object
+    Limitation:
+      example:
+        outbound_port_25_blocking: enabled
+        network_bandwidth_limit: enabled
+        cpu_performance_limit: enabled
+        storage_iops_limit: enabled
+      properties:
+        cpu_performance_limit:
+          description: CPUリソースの制限可否
+          enum:
+          - enabled
+          - disabled
+          type: string
+        network_bandwidth_limit:
+          description: ネットワーク帯域の制限可否
+          enum:
+          - enabled
+          - disabled
+          type: string
+        outbound_port_25_blocking:
+          description: OP25Bの可否
+          enum:
+          - enabled
+          - disabled
+          type: string
+        storage_iops_limit:
+          description: ストレージのIOPSの制限可否
+          enum:
+          - enabled
+          - disabled
+          type: string
+      type: object
+    Server:
+      example:
+        power_status: power_on
+        contract:
+          plan_code: 3439
+          service_code: "100000000000"
+          plan_name: さくらのVPS(v5)  1G IK01
+        description: description
+        memory_mebibytes: 1024
+        cpu_cores: 2
+        storage:
+        - size_gibibytes: 100
+          port: 0
+          type: ssd
+        - size_gibibytes: 100
+          port: 0
+          type: ssd
+        version: v5
+        service_type: linux
+        ipv4:
+          hostname: example.jp
+          address: 198.51.100.2
+          nameservers:
+          - 203.0.113.1
+          - 203.0.113.1
+          netmask: 255.255.254.0
+          gateway: 198.51.100.1
+          ptr: example.jp
+        zone:
+          code: tk1
+          name: 石狩第1
+        ipv6:
+          hostname: example.jp
+          address: 2001:e42:102:1501:153:121:89:107
+          nameservers:
+          - 2001:e42::1
+          - 2001:e42::1
+          prefixlen: 64
+          gateway: fe80::1
+          ptr: example.jp
+        name: name
+        service_status: on_trial
+        options:
+        - SQL Server Web Edition
+        - SQL Server Web Edition
+        id: 0
+      properties:
+        id:
+          description: id
+          type: integer
+        name:
+          description: 名前
+          type: string
+        description:
+          description: 説明
+          type: string
+        service_type:
+          description: サービスタイプ
+          enum:
+          - linux
+          - windows
+          type: string
+        service_status:
+          description: |-
+            サービス状況
+            * on_trial お試し中
+            * link_down_on_trial お試し中（一時停止）
+            * in_use 利用中
+            * link_down 一時停止中
+          enum:
+          - on_trial
+          - link_down_on_trial
+          - in_use
+          - link_down
+          type: string
+        cpu_cores:
+          description: CPUコア数
+          example: 2
+          type: integer
+        memory_mebibytes:
+          description: メモリ容量(MiB)
+          example: 1024
+          type: integer
+        storage:
+          description: ストレージ情報
+          items:
+            $ref: '#/components/schemas/Server_storage_inner'
+          type: array
+        zone:
+          $ref: '#/components/schemas/Server_zone'
+        options:
+          description: オプション（追加ソフトウェア）
+          items:
+            example: SQL Server Web Edition
+            type: string
+          type: array
+        version:
+          description: プランの世代
+          example: v5
+          type: string
+        ipv4:
+          $ref: '#/components/schemas/Server_ipv4'
+        ipv6:
+          $ref: '#/components/schemas/Server_ipv6'
+        contract:
+          $ref: '#/components/schemas/Server_contract'
+        power_status:
+          description: |-
+            電源ステータス
+            * power_on 電源ON
+            * in_shutdown シャットダウン中
+            * power_off 電源OFF
+            * installing OSインストール中
+            * in_scaleup スケールアップ中
+            * migration サーバー移行作業中
+            * unknown 不明（電源状態を取得できない）
+            このエンドポイントが返す電源ステータスはキャッシュされた情報のため、最新の正確な電源ステータスが必要な場合は
+            **サーバーの電源状態を取得する**`/servers/{server_id}/power-status`をご利用ください
+          enum:
+          - power_on
+          - in_shutdown
+          - power_off
+          - installing
+          - in_scaleup
+          - migration
+          - unknown
+          type: string
+      required:
+      - contract
+      - cpu_cores
+      - description
+      - id
+      - ipv4
+      - ipv6
+      - memory_mebibytes
+      - name
+      - options
+      - power_status
+      - service_status
+      - service_type
+      - storage
+      - version
+      - zone
+      type: object
+    ServerPowerStatus:
+      example:
+        status: power_on
+      properties:
+        status:
+          description: |-
+            電源ステータス
+            * power_on 電源ON
+            * in_shutdown シャットダウン中
+            * power_off 電源OFF
+            * installing OSインストール中
+            * in_scaleup スケールアップ中
+            * migration サーバー移行作業中
+            * unknown 不明（電源状態を取得できない）
+          enum:
+          - power_on
+          - in_shutdown
+          - power_off
+          - installing
+          - in_scaleup
+          - migration
+          - unknown
+          type: string
+      required:
+      - status
+      type: object
+    ServerInterface:
+      example:
+        connectable_to_global_network: true
+        connect_to: global
+        id: 0
+        switch_id: 1
+        device: eth0
+        mac: 9C:A3:BA:00:00:00
+      properties:
+        id:
+          description: id
+          readOnly: true
+          type: integer
+        device:
+          description: NIC名称
+          example: eth0
+          readOnly: true
+          type: string
+        connectable_to_global_network:
+          description: グローバルネットワークと接続可能か
+          example: true
+          readOnly: true
+          type: boolean
+        connect_to:
+          description: インターフェースの接続先
+          enum:
+          - switch
+          - global
+          example: global
+          nullable: true
+          readOnly: true
+          type: string
+        mac:
+          description: MACアドレス
+          example: 9C:A3:BA:00:00:00
+          format: mac
+          readOnly: true
+          type: string
+        switch_id:
+          description: スイッチID
+          example: 1
+          nullable: true
+          type: integer
+      required:
+      - connect_to
+      - connectable_to_global_network
+      - device
+      - id
+      - mac
+      - switch_id
+      type: object
+    NfsServer:
+      example:
+        setting_status: done
+        ipv4:
+          address: 198.51.100.2
+          netmask: 255.255.254.0
+        zone:
+          code: tk1
+          name: 石狩第1
+        power_status: power_on
+        contract:
+          plan_code: 3439
+          service_code: "100000000000"
+          plan_name: さくらのVPS(v5)  NFS 200GB OS03
+        name: name
+        service_status: in_preparation
+        description: description
+        id: 0
+        storage:
+        - size_gibibytes: 100
+          type: ssd
+        - size_gibibytes: 100
+          type: ssd
+      properties:
+        id:
+          description: id
+          type: integer
+        name:
+          description: 名前
+          type: string
+        description:
+          description: 説明
+          type: string
+        service_status:
+          description: |-
+            サービス状況
+            * in_preparation 準備中
+            * on_trial お試し中
+            * link_down_on_trial お試し中（一時停止）
+            * in_use 利用中
+            * link_down 一時停止中
+          enum:
+          - in_preparation
+          - on_trial
+          - link_down_on_trial
+          - in_use
+          - link_down
+          type: string
+        setting_status:
+          description: |-
+            設定状況
+            * done 設定完了
+            * in_update 設定更新中
+            * failed 設定更新失敗
+          enum:
+          - done
+          - in_update
+          - failed
+          type: string
+        storage:
+          description: ストレージ情報
+          items:
+            $ref: '#/components/schemas/NfsServer_storage_inner'
+          type: array
+        zone:
+          $ref: '#/components/schemas/Server_zone'
+        ipv4:
+          $ref: '#/components/schemas/NfsServer_ipv4'
+        contract:
+          $ref: '#/components/schemas/NfsServer_contract'
+        power_status:
+          description: |-
+            電源ステータス
+            * power_on 電源ON
+            * in_shutdown シャットダウン中
+            * power_off 電源OFF
+            * unknown 不明（電源状態を取得できない）
+            このエンドポイントが返す電源ステータスはキャッシュされた情報のため、最新の正確な電源ステータスではない場合があります
+          enum:
+          - power_on
+          - in_shutdown
+          - power_off
+          - unknown
+          type: string
+      required:
+      - contract
+      - description
+      - id
+      - ipv4
+      - name
+      - power_status
+      - service_status
+      - setting_status
+      - storage
+      - zone
+      type: object
+    NfsServerPowerStatus:
+      example:
+        status: power_on
+      properties:
+        status:
+          description: |-
+            電源ステータス
+            * power_on 電源ON
+            * in_shutdown シャットダウン中
+            * power_off 電源OFF
+            * unknown 不明（電源状態を取得できない）
+          enum:
+          - power_on
+          - in_shutdown
+          - power_off
+          - unknown
+          type: string
+      required:
+      - status
+      type: object
+    NfsServerInterface:
+      example:
+        connect_to: switch
+        id: 0
+        switch_id: 1
+        device: eth0
+        mac: 9C:A3:BA:00:00:00
+      properties:
+        id:
+          description: id
+          readOnly: true
+          type: integer
+        device:
+          description: NIC名称
+          example: eth0
+          readOnly: true
+          type: string
+        connect_to:
+          description: インターフェースの接続先
+          enum:
+          - switch
+          example: switch
+          nullable: true
+          readOnly: true
+          type: string
+        mac:
+          description: MACアドレス
+          example: 9C:A3:BA:00:00:00
+          format: mac
+          readOnly: true
+          type: string
+        switch_id:
+          description: スイッチID
+          example: 1
+          nullable: true
+          type: integer
+      required:
+      - connect_to
+      - device
+      - id
+      - mac
+      - switch_id
+      type: object
+    Switch:
+      example:
+        nfs_server_interfaces:
+        - 1
+        - 1
+        zone:
+          code: tk1
+          name: 石狩第1
+        name: name
+        description: description
+        server_interfaces:
+        - 6
+        - 6
+        external_connection:
+          service_code: "100000000000"
+          services:
+          - service_name: クラウド東京第1ゾーン
+            service_category: cloud
+            switch_code: "111111111111"
+          - service_name: クラウド東京第1ゾーン
+            service_category: cloud
+            switch_code: "111111111111"
+          type: cloud
+        id: 0
+        switch_code: switch_code
+      properties:
+        id:
+          description: id
+          readOnly: true
+          type: integer
+        name:
+          description: 名前
+          type: string
+        description:
+          description: 説明
+          type: string
+        switch_code:
+          description: スイッチコード
+          readOnly: true
+          type: string
+        zone:
+          $ref: '#/components/schemas/Switch_zone'
+        server_interfaces:
+          description: 接続されているサーバーのインターフェースid
+          items:
+            type: integer
+          readOnly: true
+          type: array
+        nfs_server_interfaces:
+          description: 接続されている追加ストレージ（NFS）のインターフェースid
+          items:
+            type: integer
+          readOnly: true
+          type: array
+        external_connection:
+          $ref: '#/components/schemas/Switch_external_connection'
+      required:
+      - description
+      - external_connection
+      - id
+      - name
+      - nfs_server_interfaces
+      - server_interfaces
+      - switch_code
+      - zone
+      type: object
+    Disc:
+      example:
+        name: name
+        description: description
+        id: 0
+        license_required: true
+      properties:
+        id:
+          description: id
+          type: integer
+        name:
+          description: 名前
+          type: string
+        description:
+          description: 説明
+          type: string
+        license_required:
+          description: ライセンスが必要かどうか
+          type: boolean
+      required:
+      - description
+      - id
+      - license_required
+      - name
+      type: object
+    ServerMonitoring:
+      example:
+        settings:
+          notification:
+            incoming_webhook:
+              webhooks_url: https://openapi-generator.tech
+              slack_team_name: slack_team_name
+              slack_channel_name: slack_channel_name
+              enabled: true
+            email:
+              enabled: true
+            interval_hours: 11
+          health_check:
+            protocol: ping
+            interval_minutes: 36
+          enabled: true
+        update_status: waiting
+        name: name
+        description: description
+        id: 0
+        monitoring_resource_id: monitoring_resource_id
+      properties:
+        id:
+          description: id
+          readOnly: true
+          type: integer
+        name:
+          description: 名前
+          maxLength: 255
+          type: string
+        description:
+          description: 説明
+          maxLength: 10000
+          type: string
+        monitoring_resource_id:
+          description: 監視リソースID
+          readOnly: true
+          type: string
+        update_status:
+          description: |-
+            更新ステータス
+            * waiting 更新待ち
+            * updating 更新中
+            * completed 更新完了
+            * error 更新エラー
+          enum:
+          - waiting
+          - updating
+          - completed
+          - error
+          readOnly: true
+          type: string
+        settings:
+          $ref: '#/components/schemas/ServerMonitoring_settings'
+      required:
+      - description
+      - id
+      - monitoring_resource_id
+      - name
+      - settings
+      - update_status
+      type: object
+    HealthCheckPing:
+      example:
+        protocol: ping
+        interval_minutes: 36
+      properties:
+        protocol:
+          description: 監視方法
+          enum:
+          - ping
+          type: string
+        interval_minutes:
+          description: チェック間隔(分)
+          maximum: 60
+          minimum: 1
+          type: integer
+      required:
+      - interval_minutes
+      - protocol
+    HealthCheckTcp:
+      properties:
+        protocol:
+          description: 監視方法
+          enum:
+          - tcp
+          type: string
+        port:
+          description: ポート番号
+          maximum: 65535
+          minimum: 1
+          type: integer
+        interval_minutes:
+          description: チェック間隔(分)
+          maximum: 60
+          minimum: 1
+          type: integer
+      required:
+      - interval_minutes
+      - port
+      - protocol
+    HealthCheckSsh:
+      properties:
+        protocol:
+          description: 監視方法
+          enum:
+          - ssh
+          type: string
+        port:
+          description: ポート番号
+          example: 22
+          maximum: 65535
+          minimum: 1
+          type: integer
+        interval_minutes:
+          description: チェック間隔(分)
+          maximum: 60
+          minimum: 1
+          type: integer
+      required:
+      - interval_minutes
+      - port
+      - protocol
+    HealthCheckSmtp:
+      properties:
+        protocol:
+          description: 監視方法
+          enum:
+          - smtp
+          type: string
+        port:
+          description: ポート番号
+          example: 25
+          maximum: 65535
+          minimum: 1
+          type: integer
+        interval_minutes:
+          description: チェック間隔(分)
+          maximum: 60
+          minimum: 1
+          type: integer
+      required:
+      - interval_minutes
+      - port
+      - protocol
+    HealthCheckPop3:
+      properties:
+        protocol:
+          description: 監視方法
+          enum:
+          - pop3
+          type: string
+        port:
+          description: ポート番号
+          example: 110
+          maximum: 65535
+          minimum: 1
+          type: integer
+        interval_minutes:
+          description: チェック間隔(分)
+          maximum: 60
+          minimum: 1
+          type: integer
+      required:
+      - interval_minutes
+      - port
+      - protocol
+    HealthCheckHttpBase:
+      properties:
+        port:
+          description: ポート番号
+          example: 80
+          maximum: 65535
+          minimum: 1
+          type: integer
+        host:
+          description: "監視用HTTPリクエストのHostヘッダ  \nRFCの定義に基づいて下記の制限をかけています\n* ラベルは2つ以\
+            上必要\n* 各ラベルについて\n  * 利用できる文字\n    * 半角数字 0～9\n    * 半角英小文字 a～z\n    *\
+            \ 半角記号 -\n  * 両端が-でないこと\n  * -が2つ以上続かないこと。ただしpunycodeの接頭辞`xn--`を除く\n \
+            \ * 下記パターン(RFCなどで予約または禁止されているパターン)と一致しないこと\n    * isatap\n    * wpad\n\
+            \    * example\n    * example0～example9\n* 最後のラベルについて\n  * 利用できる文字\n \
+            \   * 半角英小文字 a～z\n  * 下記のパターン(RFC予約済みのDNS名)と一致しないこと\n    * test\n    *\
+            \ localhost"
+          maxLength: 63
+          minLength: 1
+          nullable: true
+          type: string
+        path:
+          description: "監視対象のパス\n* 利用できる文字 \n  * 半角数字 0～9\n  * 半角英字 A～Z、a～z\n  * 半\
+            角記号 _./~%?=-&"
+          example: /
+          maxLength: 1000
+          minLength: 1
+          type: string
+        basic_auth_username:
+          description: "ベーシック認証のユーザー名\n* 利用できる文字 \n  * 半角数字 0～9\n  * 半角英字 A～Z、a～z\n\
+            \  * 半角記号 _.-+!@"
+          maxLength: 20
+          minLength: 1
+          nullable: true
+          type: string
+        basic_auth_password:
+          description: "ベーシック認証のパスワード\n* 利用できる文字 \n  * 半角数字 0～9\n  * 半角英字 A～Z、a～z\n\
+            \  * 半角記号 !#$%&()*+,-./:<=>?@[]^_`{|}~"
+          maxLength: 32
+          minLength: 1
+          nullable: true
+          type: string
+        status:
+          description: 正常と見なすHTTPステータスコード
+          maximum: 999
+          minimum: 100
+          type: integer
+        interval_minutes:
+          description: チェック間隔(分)
+          maximum: 60
+          minimum: 1
+          type: integer
+      required:
+      - basic_auth_password
+      - basic_auth_username
+      - host
+      - interval_minutes
+      - path
+      - port
+      - status
+    HealthCheckHttp:
+      allOf:
+      - properties:
+          protocol:
+            description: 監視方法
+            enum:
+            - http
+            type: string
+        required:
+        - protocol
+        type: object
+      - $ref: '#/components/schemas/HealthCheckHttpBase'
+    HealthCheckHttps:
+      allOf:
+      - properties:
+          protocol:
+            description: 監視方法
+            enum:
+            - https
+            type: string
+          sni:
+            description: |-
+              SNIを設定しているWebサーバか
+              * true SNI設定あり
+              * false SNI設定なし
+            type: boolean
+        required:
+        - protocol
+        - sni
+        type: object
+      - $ref: '#/components/schemas/HealthCheckHttpBase'
+    ServerMonitoringHealth:
+      example:
+        last_status_changed_at: 2024-04-01T23:59:59+09:00
+        last_checked_at: 2024-04-15T23:59:59+09:00
+        status: healthy
+      properties:
+        last_checked_at:
+          description: 最終監視日時
+          example: 2024-04-15T23:59:59+09:00
+          format: date-time
+          nullable: true
+          type: string
+        status:
+          description: |-
+            ステータス
+              * healthy 正常
+              * unhealthy 異常
+          enum:
+          - healthy
+          - unhealthy
+          nullable: true
+          type: string
+        last_status_changed_at:
+          description: 最終ステータス変更日時
+          example: 2024-04-01T23:59:59+09:00
+          format: date-time
+          nullable: true
+          type: string
+      required:
+      - last_checked_at
+      - last_status_changed_at
+      - status
+    Zone:
+      example:
+        can_use_hybrid: true
+        can_use_local: true
+        code: tk1
+        name: name
+        id: 0
+      properties:
+        id:
+          description: id
+          type: integer
+        code:
+          description: |-
+            ゾーンコード
+            * tk1 東京第1
+            * tk2 東京第2
+            * tk3 東京第3
+            * os1 大阪第1
+            * os2 大阪第2
+            * os3 大阪第3
+            * is1 石狩第1
+          enum:
+          - tk1
+          - tk2
+          - tk3
+          - os1
+          - os2
+          - os3
+          - is1
+          type: string
+        name:
+          description: ゾーン名称
+          type: string
+        can_use_local:
+          description: ローカルネットワーク接続が可能かどうか
+          type: boolean
+        can_use_hybrid:
+          description: ハイブリッド接続が利用可能かどうか
+          type: boolean
+      required:
+      - can_use_hybrid
+      - can_use_local
+      - code
+      - id
+      - name
+      type: object
+    Role:
+      example:
+        permission_filtering: enabled
+        name: name
+        description: description
+        resource_filtering: enabled
+        id: 0
+        allowed_permissions:
+        - get-server-list
+        - get-server
+        - put-server
+        allowed_resources:
+          servers:
+          - 1
+          - 2
+          - 3
+          nfs_servers:
+          - 1
+          - 2
+          - 3
+          switches:
+          - 1
+          - 2
+          - 3
+      properties:
+        id:
+          description: id
+          readOnly: true
+          type: integer
+        name:
+          description: 名前
+          maxLength: 100
+          type: string
+        description:
+          description: 説明
+          maxLength: 512
+          type: string
+        permission_filtering:
+          description: 利用できる権限を制限するか
+          enum:
+          - enabled
+          - disabled
+          type: string
+        allowed_permissions:
+          description: 利用できる権限。permission_filteringがenabledの場合のみ指定可能。**権限の一覧を取得する**`/permissions`のcode値を指定します。
+          example:
+          - get-server-list
+          - get-server
+          - put-server
+          items:
+            type: string
+          type: array
+        resource_filtering:
+          description: 利用できるリソースを制限するか
+          enum:
+          - enabled
+          - disabled
+          type: string
+        allowed_resources:
+          $ref: '#/components/schemas/Role_allowed_resources'
+      required:
+      - allowed_permissions
+      - allowed_resources
+      - description
+      - id
+      - name
+      - permission_filtering
+      - resource_filtering
+      type: object
+    ApiKey:
+      example:
+        role: 6
+        name: name
+        id: 0
+        token: token
+      properties:
+        id:
+          description: id
+          readOnly: true
+          type: integer
+        name:
+          description: 名前
+          maxLength: 100
+          type: string
+        role:
+          description: ロールID
+          type: integer
+        token:
+          description: APIのアクセストークン。APIキー作成時とトークンローテーション時以外は情報を`*`でマスクして返します。
+          readOnly: true
+          type: string
+      required:
+      - id
+      - name
+      - role
+      - token
+      type: object
+    Permission:
+      example:
+        code: get-server-list
+        name: サーバー一覧の取得
+        category: server
+      properties:
+        code:
+          description: 権限のcode
+          example: get-server-list
+          type: string
+        name:
+          description: 名前
+          example: サーバー一覧の取得
+          type: string
+        category:
+          description: 権限のカテゴリー
+          example: server
+          type: string
+      required:
+      - category
+      - code
+      - name
+      type: object
+    Keymap:
+      example:
+        layout: ja
+      properties:
+        layout:
+          description: 指定したいキー配列の名称
+          enum:
+          - ja
+          - en-us
+          type: string
+      required:
+      - layout
+      type: object
+    get_server_list_200_response:
+      allOf:
+      - properties:
+          results:
+            items:
+              $ref: '#/components/schemas/Server'
+            type: array
+        required:
+        - results
+        type: object
+      - $ref: '#/components/schemas/Pagination'
+      example:
+        next: https://api.example.com/?page=3&per_page=10
+        previous: https://api.example.com/?per_page=10
+        count: 100
+        results:
+        - power_status: power_on
+          contract:
+            plan_code: 3439
+            service_code: "100000000000"
+            plan_name: さくらのVPS(v5)  1G IK01
+          description: description
+          memory_mebibytes: 1024
+          cpu_cores: 2
+          storage:
+          - size_gibibytes: 100
+            port: 0
+            type: ssd
+          - size_gibibytes: 100
+            port: 0
+            type: ssd
+          version: v5
+          service_type: linux
+          ipv4:
+            hostname: example.jp
+            address: 198.51.100.2
+            nameservers:
+            - 203.0.113.1
+            - 203.0.113.1
+            netmask: 255.255.254.0
+            gateway: 198.51.100.1
+            ptr: example.jp
+          zone:
+            code: tk1
+            name: 石狩第1
+          ipv6:
+            hostname: example.jp
+            address: 2001:e42:102:1501:153:121:89:107
+            nameservers:
+            - 2001:e42::1
+            - 2001:e42::1
+            prefixlen: 64
+            gateway: fe80::1
+            ptr: example.jp
+          name: name
+          service_status: on_trial
+          options:
+          - SQL Server Web Edition
+          - SQL Server Web Edition
+          id: 0
+        - power_status: power_on
+          contract:
+            plan_code: 3439
+            service_code: "100000000000"
+            plan_name: さくらのVPS(v5)  1G IK01
+          description: description
+          memory_mebibytes: 1024
+          cpu_cores: 2
+          storage:
+          - size_gibibytes: 100
+            port: 0
+            type: ssd
+          - size_gibibytes: 100
+            port: 0
+            type: ssd
+          version: v5
+          service_type: linux
+          ipv4:
+            hostname: example.jp
+            address: 198.51.100.2
+            nameservers:
+            - 203.0.113.1
+            - 203.0.113.1
+            netmask: 255.255.254.0
+            gateway: 198.51.100.1
+            ptr: example.jp
+          zone:
+            code: tk1
+            name: 石狩第1
+          ipv6:
+            hostname: example.jp
+            address: 2001:e42:102:1501:153:121:89:107
+            nameservers:
+            - 2001:e42::1
+            - 2001:e42::1
+            prefixlen: 64
+            gateway: fe80::1
+            ptr: example.jp
+          name: name
+          service_status: on_trial
+          options:
+          - SQL Server Web Edition
+          - SQL Server Web Edition
+          id: 0
+    get_server_list_401_response:
+      example:
+        code: not_authenticated
+        message: 認証情報が含まれていません。
+      properties:
+        code:
+          description: エラー内容を示す簡潔な識別子
+          enum:
+          - not_authenticated
+          type: string
+        message:
+          description: エラーの内容
+          example: 認証情報が含まれていません。
+          type: string
+      type: object
+    get_server_list_403_response:
+      example:
+        code: permission_denied
+        message: このアクションを実行する権限がありません。
+      properties:
+        code:
+          description: エラー内容を示す簡潔な識別子
+          enum:
+          - permission_denied
+          type: string
+        message:
+          description: エラーの内容
+          example: このアクションを実行する権限がありません。
+          type: string
+      type: object
+    put_server_request:
+      properties:
+        name:
+          description: 名前
+          type: string
+        description:
+          description: 説明
+          type: string
+      required:
+      - description
+      - name
+      type: object
+    post_server_shutdown_request:
+      properties:
+        force:
+          default: false
+          description: 強制停止を行うか
+          type: boolean
+      type: object
+    post_server_mount_disc_request:
+      properties:
+        disc_id:
+          description: ディスクID
+          type: integer
+      required:
+      - disc_id
+      type: object
+    put_server_ipv4_ptr_request:
+      properties:
+        hostname:
+          description: ホスト名
+          example: example.jp
+          type: string
+      required:
+      - hostname
+      type: object
+    put_server_ipv4_ptr_200_response:
+      example:
+        ptr: example.jp
+      properties:
+        ptr:
+          description: 逆引きホスト名
+          example: example.jp
+          type: string
+      required:
+      - ptr
+      type: object
+    get_server_interface_list_200_response:
+      allOf:
+      - properties:
+          results:
+            items:
+              $ref: '#/components/schemas/ServerInterface'
+            type: array
+        required:
+        - results
+        type: object
+      - $ref: '#/components/schemas/Pagination'
+      example:
+        next: https://api.example.com/?page=3&per_page=10
+        previous: https://api.example.com/?per_page=10
+        count: 100
+        results:
+        - connectable_to_global_network: true
+          connect_to: global
+          id: 0
+          switch_id: 1
+          device: eth0
+          mac: 9C:A3:BA:00:00:00
+        - connectable_to_global_network: true
+          connect_to: global
+          id: 0
+          switch_id: 1
+          device: eth0
+          mac: 9C:A3:BA:00:00:00
+    get_server_video_device_200_response:
+      example:
+        type: vga
+      properties:
+        type:
+          description: ビデオデバイスの種類
+          enum:
+          - vga
+          - cirrus
+          - unknown
+          type: string
+      required:
+      - type
+      type: object
+    put_server_video_device_request:
+      example:
+        type: vga
+      properties:
+        type:
+          description: ビデオデバイスの種類
+          enum:
+          - vga
+          - cirrus
+          type: string
+      required:
+      - type
+      type: object
+    get_server_monitoring_list_200_response:
+      allOf:
+      - properties:
+          results:
+            items:
+              $ref: '#/components/schemas/ServerMonitoring'
+            type: array
+        required:
+        - results
+        type: object
+      - $ref: '#/components/schemas/Pagination'
+      example:
+        next: https://api.example.com/?page=3&per_page=10
+        previous: https://api.example.com/?per_page=10
+        count: 100
+        results:
+        - settings:
+            notification:
+              incoming_webhook:
+                webhooks_url: https://openapi-generator.tech
+                slack_team_name: slack_team_name
+                slack_channel_name: slack_channel_name
+                enabled: true
+              email:
+                enabled: true
+              interval_hours: 11
+            health_check:
+              protocol: ping
+              interval_minutes: 36
+            enabled: true
+          update_status: waiting
+          name: name
+          description: description
+          id: 0
+          monitoring_resource_id: monitoring_resource_id
+        - settings:
+            notification:
+              incoming_webhook:
+                webhooks_url: https://openapi-generator.tech
+                slack_team_name: slack_team_name
+                slack_channel_name: slack_channel_name
+                enabled: true
+              email:
+                enabled: true
+              interval_hours: 11
+            health_check:
+              protocol: ping
+              interval_minutes: 36
+            enabled: true
+          update_status: waiting
+          name: name
+          description: description
+          id: 0
+          monitoring_resource_id: monitoring_resource_id
+    get_nfs_server_list_200_response:
+      allOf:
+      - properties:
+          results:
+            items:
+              $ref: '#/components/schemas/NfsServer'
+            type: array
+        required:
+        - results
+        type: object
+      - $ref: '#/components/schemas/Pagination'
+      example:
+        next: https://api.example.com/?page=3&per_page=10
+        previous: https://api.example.com/?per_page=10
+        count: 100
+        results:
+        - setting_status: done
+          ipv4:
+            address: 198.51.100.2
+            netmask: 255.255.254.0
+          zone:
+            code: tk1
+            name: 石狩第1
+          power_status: power_on
+          contract:
+            plan_code: 3439
+            service_code: "100000000000"
+            plan_name: さくらのVPS(v5)  NFS 200GB OS03
+          name: name
+          service_status: in_preparation
+          description: description
+          id: 0
+          storage:
+          - size_gibibytes: 100
+            type: ssd
+          - size_gibibytes: 100
+            type: ssd
+        - setting_status: done
+          ipv4:
+            address: 198.51.100.2
+            netmask: 255.255.254.0
+          zone:
+            code: tk1
+            name: 石狩第1
+          power_status: power_on
+          contract:
+            plan_code: 3439
+            service_code: "100000000000"
+            plan_name: さくらのVPS(v5)  NFS 200GB OS03
+          name: name
+          service_status: in_preparation
+          description: description
+          id: 0
+          storage:
+          - size_gibibytes: 100
+            type: ssd
+          - size_gibibytes: 100
+            type: ssd
+    post_nfs_server_change_ipv4_request:
+      properties:
+        address:
+          description: ipv4アドレス
+          type: string
+        netmask:
+          description: ネットマスク
+          type: string
+      required:
+      - address
+      - netmask
+      type: object
+    get_switch_list_200_response:
+      allOf:
+      - properties:
+          results:
+            items:
+              $ref: '#/components/schemas/Switch'
+            type: array
+        required:
+        - results
+        type: object
+      - $ref: '#/components/schemas/Pagination'
+      example:
+        next: https://api.example.com/?page=3&per_page=10
+        previous: https://api.example.com/?per_page=10
+        count: 100
+        results:
+        - nfs_server_interfaces:
+          - 1
+          - 1
+          zone:
+            code: tk1
+            name: 石狩第1
+          name: name
+          description: description
+          server_interfaces:
+          - 6
+          - 6
+          external_connection:
+            service_code: "100000000000"
+            services:
+            - service_name: クラウド東京第1ゾーン
+              service_category: cloud
+              switch_code: "111111111111"
+            - service_name: クラウド東京第1ゾーン
+              service_category: cloud
+              switch_code: "111111111111"
+            type: cloud
+          id: 0
+          switch_code: switch_code
+        - nfs_server_interfaces:
+          - 1
+          - 1
+          zone:
+            code: tk1
+            name: 石狩第1
+          name: name
+          description: description
+          server_interfaces:
+          - 6
+          - 6
+          external_connection:
+            service_code: "100000000000"
+            services:
+            - service_name: クラウド東京第1ゾーン
+              service_category: cloud
+              switch_code: "111111111111"
+            - service_name: クラウド東京第1ゾーン
+              service_category: cloud
+              switch_code: "111111111111"
+            type: cloud
+          id: 0
+          switch_code: switch_code
+    post_switch_request:
+      properties:
+        name:
+          description: 名前
+          type: string
+        description:
+          description: 説明
+          type: string
+        zone_code:
+          description: |-
+            ゾーンコード
+            * tk2 東京第2
+            * tk3 東京第3
+            * os3 大阪第3
+            * is1 石狩第1
+          enum:
+          - tk2
+          - tk3
+          - os3
+          - is1
+          type: string
+          writeOnly: true
+      required:
+      - description
+      - name
+      - zone_code
+    post_switch_201_response_zone:
+      description: ゾーン情報
+      example:
+        code: tk2
+        name: 石狩第1
+      properties:
+        code:
+          description: |-
+            ゾーンコード
+            * tk2 東京第2
+            * tk3 東京第3
+            * os3 大阪第3
+            * is1 石狩第1
+          enum:
+          - tk2
+          - tk3
+          - os3
+          - is1
+          readOnly: true
+          type: string
+        name:
+          description: ゾーン名称
+          example: 石狩第1
+          readOnly: true
+          type: string
+      readOnly: true
+      required:
+      - code
+      - name
+      type: object
+    post_switch_201_response:
+      example:
+        nfs_server_interfaces: []
+        zone:
+          code: tk2
+          name: 石狩第1
+        name: name
+        description: description
+        server_interfaces: []
+        external_connection: "{}"
+        id: 0
+        switch_code: switch_code
+      properties:
+        id:
+          description: id
+          readOnly: true
+          type: integer
+        name:
+          description: 名前
+          type: string
+        description:
+          description: 説明
+          type: string
+        switch_code:
+          description: スイッチコード
+          readOnly: true
+          type: string
+        zone:
+          $ref: '#/components/schemas/post_switch_201_response_zone'
+        server_interfaces:
+          description: 接続されているサーバーのインターフェースid
+          example: []
+          items:
+            type: integer
+          readOnly: true
+          type: array
+        nfs_server_interfaces:
+          description: 接続されている追加ストレージ（NFS）のインターフェースid
+          example: []
+          items:
+            type: integer
+          readOnly: true
+          type: array
+        external_connection:
+          description: 接続されている外部接続の情報
+          nullable: true
+          readOnly: true
+          type: object
+          example: null
+      required:
+      - description
+      - external_connection
+      - id
+      - name
+      - nfs_server_interfaces
+      - server_interfaces
+      - switch_code
+      - zone
+      type: object
+    get_disc_list_200_response:
+      allOf:
+      - properties:
+          results:
+            items:
+              $ref: '#/components/schemas/Disc'
+            type: array
+        required:
+        - results
+        type: object
+      - $ref: '#/components/schemas/Pagination'
+      example:
+        next: https://api.example.com/?page=3&per_page=10
+        previous: https://api.example.com/?per_page=10
+        count: 100
+        results:
+        - name: name
+          description: description
+          id: 0
+          license_required: true
+        - name: name
+          description: description
+          id: 0
+          license_required: true
+    get_zone_list_200_response:
+      allOf:
+      - properties:
+          results:
+            items:
+              $ref: '#/components/schemas/Zone'
+            type: array
+        required:
+        - results
+        type: object
+      - $ref: '#/components/schemas/Pagination'
+      example:
+        next: https://api.example.com/?page=3&per_page=10
+        previous: https://api.example.com/?per_page=10
+        count: 100
+        results:
+        - can_use_hybrid: true
+          can_use_local: true
+          code: tk1
+          name: name
+          id: 0
+        - can_use_hybrid: true
+          can_use_local: true
+          code: tk1
+          name: name
+          id: 0
+    get_api_key_list_200_response:
+      allOf:
+      - properties:
+          results:
+            items:
+              $ref: '#/components/schemas/ApiKey'
+            type: array
+        required:
+        - results
+        type: object
+      - $ref: '#/components/schemas/Pagination'
+      example:
+        next: https://api.example.com/?page=3&per_page=10
+        previous: https://api.example.com/?per_page=10
+        count: 100
+        results:
+        - role: 6
+          name: name
+          id: 0
+          token: token
+        - role: 6
+          name: name
+          id: 0
+          token: token
+    get_role_list_200_response:
+      allOf:
+      - properties:
+          results:
+            items:
+              $ref: '#/components/schemas/Role'
+            type: array
+        required:
+        - results
+        type: object
+      - $ref: '#/components/schemas/Pagination'
+      example:
+        next: https://api.example.com/?page=3&per_page=10
+        previous: https://api.example.com/?per_page=10
+        count: 100
+        results:
+        - permission_filtering: enabled
+          name: name
+          description: description
+          resource_filtering: enabled
+          id: 0
+          allowed_permissions:
+          - get-server-list
+          - get-server
+          - put-server
+          allowed_resources:
+            servers:
+            - 1
+            - 2
+            - 3
+            nfs_servers:
+            - 1
+            - 2
+            - 3
+            switches:
+            - 1
+            - 2
+            - 3
+        - permission_filtering: enabled
+          name: name
+          description: description
+          resource_filtering: enabled
+          id: 0
+          allowed_permissions:
+          - get-server-list
+          - get-server
+          - put-server
+          allowed_resources:
+            servers:
+            - 1
+            - 2
+            - 3
+            nfs_servers:
+            - 1
+            - 2
+            - 3
+            switches:
+            - 1
+            - 2
+            - 3
+    get_permission_list_200_response:
+      allOf:
+      - properties:
+          results:
+            items:
+              $ref: '#/components/schemas/Permission'
+            type: array
+        required:
+        - results
+        type: object
+      - $ref: '#/components/schemas/Pagination'
+      example:
+        next: https://api.example.com/?page=3&per_page=10
+        previous: https://api.example.com/?per_page=10
+        count: 100
+        results:
+        - code: get-server-list
+          name: サーバー一覧の取得
+          category: server
+        - code: get-server-list
+          name: サーバー一覧の取得
+          category: server
+    InvalidParameterDetail_inner:
+      properties:
+        code:
+          description: エラー内容を示す簡潔な識別子
+          example: required
+          type: string
+        message:
+          example: この項目は必須です
+          type: string
+      type: object
+    ProblemDetails400_errors:
+      additionalProperties:
+        $ref: '#/components/schemas/InvalidParameterDetail'
+      description: |-
+        入力値に対するエラーを構造化した情報
+        (code`invalid`の場合のみ)
+        * `non_field_errors` - リクエスト全体に起因した(単一項目でない)エラー内容
+        * `*` - 対応した入力項目ごとのエラー内容
+      example:
+        foo:
+        - code: required
+          message: この項目は必須です
+      nullable: true
+      properties:
+        non_field_errors:
+          items:
+            $ref: '#/components/schemas/InvalidParameterDetail_inner'
+          type: array
+      type: object
+    Server_storage_inner:
+      example:
+        size_gibibytes: 100
+        port: 0
+        type: ssd
+      properties:
+        port:
+          description: ポート番号
+          example: 0
+          type: integer
+        type:
+          description: 種別
+          enum:
+          - ssd
+          - hdd
+          type: string
+        size_gibibytes:
+          description: ストレージ容量(GiB)
+          example: 100
+          type: integer
+      required:
+      - port
+      - size_gibibytes
+      - type
+      type: object
+    Server_zone:
+      description: ゾーン情報
+      example:
+        code: tk1
+        name: 石狩第1
+      properties:
+        code:
+          description: |-
+            ゾーンコード
+            * tk1 東京第1
+            * tk2 東京第2
+            * tk3 東京第3
+            * os1 大阪第1
+            * os2 大阪第2
+            * os3 大阪第3
+            * is1 石狩第1
+          enum:
+          - tk1
+          - tk2
+          - tk3
+          - os1
+          - os2
+          - os3
+          - is1
+          type: string
+        name:
+          description: ゾーン名称
+          example: 石狩第1
+          type: string
+      required:
+      - code
+      - name
+      type: object
+    Server_ipv4:
+      example:
+        hostname: example.jp
+        address: 198.51.100.2
+        nameservers:
+        - 203.0.113.1
+        - 203.0.113.1
+        netmask: 255.255.254.0
+        gateway: 198.51.100.1
+        ptr: example.jp
+      properties:
+        address:
+          description: アドレス
+          example: 198.51.100.2
+          type: string
+        netmask:
+          description: サブネットマスク
+          example: 255.255.254.0
+          type: string
+        gateway:
+          description: ゲートウェイのアドレス
+          example: 198.51.100.1
+          type: string
+        nameservers:
+          description: ネームサーバーのアドレスリスト
+          items:
+            example: 203.0.113.1
+            type: string
+          type: array
+        hostname:
+          description: 標準ホスト名
+          example: example.jp
+          type: string
+        ptr:
+          description: 逆引きホスト名
+          example: example.jp
+          type: string
+      required:
+      - address
+      - gateway
+      - hostname
+      - nameservers
+      - netmask
+      - ptr
+      type: object
+    Server_ipv6:
+      example:
+        hostname: example.jp
+        address: 2001:e42:102:1501:153:121:89:107
+        nameservers:
+        - 2001:e42::1
+        - 2001:e42::1
+        prefixlen: 64
+        gateway: fe80::1
+        ptr: example.jp
+      properties:
+        address:
+          description: アドレス
+          example: 2001:e42:102:1501:153:121:89:107
+          nullable: true
+          type: string
+        prefixlen:
+          description: プレフィックス長
+          example: 64
+          nullable: true
+          type: integer
+        gateway:
+          description: ゲートウェイのアドレス
+          example: fe80::1
+          nullable: true
+          type: string
+        nameservers:
+          description: ネームサーバーのアドレスリスト
+          items:
+            example: 2001:e42::1
+            type: string
+          type: array
+        hostname:
+          description: 標準ホスト名
+          example: example.jp
+          nullable: true
+          type: string
+        ptr:
+          description: 逆引きホスト名
+          example: example.jp
+          nullable: true
+          type: string
+      required:
+      - address
+      - gateway
+      - hostname
+      - nameservers
+      - prefixlen
+      - ptr
+      type: object
+    Server_contract:
+      description: 契約情報
+      example:
+        plan_code: 3439
+        service_code: "100000000000"
+        plan_name: さくらのVPS(v5)  1G IK01
+      properties:
+        plan_code:
+          description: プランコード
+          example: 3439
+          type: integer
+        plan_name:
+          description: プラン名
+          example: さくらのVPS(v5)  1G IK01
+          type: string
+        service_code:
+          description: サービスコード
+          example: "100000000000"
+          type: string
+      required:
+      - plan_code
+      - plan_name
+      - service_code
+      type: object
+    NfsServer_storage_inner:
+      example:
+        size_gibibytes: 100
+        type: ssd
+      properties:
+        type:
+          description: 種別
+          enum:
+          - ssd
+          - hdd
+          type: string
+        size_gibibytes:
+          description: ストレージ容量(GiB)
+          example: 100
+          type: integer
+      required:
+      - port
+      - size_gibibytes
+      - type
+      type: object
+    NfsServer_ipv4:
+      example:
+        address: 198.51.100.2
+        netmask: 255.255.254.0
+      properties:
+        address:
+          description: アドレス
+          example: 198.51.100.2
+          type: string
+        netmask:
+          description: サブネットマスク
+          example: 255.255.254.0
+          type: string
+      required:
+      - address
+      - netmask
+      type: object
+    NfsServer_contract:
+      description: 契約情報
+      example:
+        plan_code: 3439
+        service_code: "100000000000"
+        plan_name: さくらのVPS(v5)  NFS 200GB OS03
+      properties:
+        plan_code:
+          description: プランコード
+          example: 3439
+          type: integer
+        plan_name:
+          description: プラン名
+          example: さくらのVPS(v5)  NFS 200GB OS03
+          type: string
+        service_code:
+          description: サービスコード
+          example: "100000000000"
+          type: string
+      required:
+      - plan_code
+      - plan_name
+      - service_code
+      type: object
+    Switch_zone:
+      description: ゾーン情報
+      example:
+        code: tk1
+        name: 石狩第1
+      properties:
+        code:
+          description: |-
+            ゾーンコード
+            * tk1 東京第1
+            * tk2 東京第2
+            * tk3 東京第3
+            * os1 大阪第1
+            * os2 大阪第2
+            * os3 大阪第3
+            * is1 石狩第1
+          enum:
+          - tk1
+          - tk2
+          - tk3
+          - os1
+          - os2
+          - os3
+          - is1
+          readOnly: true
+          type: string
+        name:
+          description: ゾーン名称
+          example: 石狩第1
+          readOnly: true
+          type: string
+      readOnly: true
+      required:
+      - code
+      - name
+      type: object
+    Switch_external_connection_services_inner:
+      example:
+        service_name: クラウド東京第1ゾーン
+        service_category: cloud
+        switch_code: "111111111111"
+      properties:
+        service_category:
+          description: サービスカテゴリー
+          example: cloud
+          readOnly: true
+          type: string
+        service_name:
+          description: サービス名
+          example: クラウド東京第1ゾーン
+          readOnly: true
+          type: string
+        switch_code:
+          description: スイッチコード
+          example: "111111111111"
+          readOnly: true
+          type: string
+      required:
+      - service_category
+      - service_name
+      - switch_code
+      type: object
+    Switch_external_connection:
+      description: 接続されている外部接続の情報
+      example:
+        service_code: "100000000000"
+        services:
+        - service_name: クラウド東京第1ゾーン
+          service_category: cloud
+          switch_code: "111111111111"
+        - service_name: クラウド東京第1ゾーン
+          service_category: cloud
+          switch_code: "111111111111"
+        type: cloud
+      nullable: true
+      properties:
+        service_code:
+          description: サービスコード
+          example: "100000000000"
+          readOnly: true
+          type: string
+        type:
+          description: 外部接続方式
+          enum:
+          - cloud
+          - sales
+          - localrouter
+          - awsdxcon
+          readOnly: true
+          type: string
+        services:
+          items:
+            $ref: '#/components/schemas/Switch_external_connection_services_inner'
+          readOnly: true
+          type: array
+      readOnly: true
+      required:
+      - service_code
+      - services
+      - type
+      type: object
+    ServerMonitoring_settings_health_check:
+      oneOf:
+      - $ref: '#/components/schemas/HealthCheckPing'
+      - $ref: '#/components/schemas/HealthCheckTcp'
+      - $ref: '#/components/schemas/HealthCheckSsh'
+      - $ref: '#/components/schemas/HealthCheckSmtp'
+      - $ref: '#/components/schemas/HealthCheckPop3'
+      - $ref: '#/components/schemas/HealthCheckHttp'
+      - $ref: '#/components/schemas/HealthCheckHttps'
+      type: object
+    ServerMonitoring_settings_notification_email:
+      description: emailでの通知の設定。会員情報に登録されているメールアドレス宛に送信されます。
+      example:
+        enabled: true
+      properties:
+        enabled:
+          description: |-
+            通知のON/OFF
+            * true 通知ON
+            * false 通知OFF
+          type: boolean
+      required:
+      - enabled
+      type: object
+    ServerMonitoring_settings_notification_incoming_webhook:
+      description: incoming webhookでの通知の設定
+      example:
+        webhooks_url: https://openapi-generator.tech
+        slack_team_name: slack_team_name
+        slack_channel_name: slack_channel_name
+        enabled: true
+      properties:
+        enabled:
+          description: |-
+            通知のON/OFF
+            * true 通知ON
+            * false 通知OFF
+          type: boolean
+        webhooks_url:
+          description: |-
+            通知先のWebhooksURL。
+            Slack、Discord、Microsoft TeamsのIncoming WebHooksにのみ対応しています。
+            指定できるURLは各サービスのWebhook URL(https://hooks.slack.com/services/* など)の形式に制限されています。
+            Discordの場合は[Slack互換のWebhook URL](https://discord.com/developers/docs/resources/webhook#execute-slackcompatible-webhook)を指定してください。
+          format: uri
+          maxLength: 500
+          minLength: 1
+          nullable: true
+          type: string
+        slack_team_name:
+          description: slackのteam name。VPSコントロールパネルの「Slackと自動で連携をする」を利用した場合に設定されます。
+          readOnly: true
+          type: string
+        slack_channel_name:
+          description: slackのchannel name。VPSコントロールパネルの「Slackと自動で連携をする」を利用した場合に設定されます。
+          readOnly: true
+          type: string
+      required:
+      - enabled
+      - slack_channel_name
+      - slack_team_name
+      - webhooks_url
+      type: object
+    ServerMonitoring_settings_notification:
+      example:
+        incoming_webhook:
+          webhooks_url: https://openapi-generator.tech
+          slack_team_name: slack_team_name
+          slack_channel_name: slack_channel_name
+          enabled: true
+        email:
+          enabled: true
+        interval_hours: 11
+      properties:
+        email:
+          $ref: '#/components/schemas/ServerMonitoring_settings_notification_email'
+        incoming_webhook:
+          $ref: '#/components/schemas/ServerMonitoring_settings_notification_incoming_webhook'
+        interval_hours:
+          description: 再通知間隔(時間)
+          maximum: 72
+          minimum: 1
+          type: integer
+      required:
+      - email
+      - incoming_webhook
+      - interval_hours
+      type: object
+    ServerMonitoring_settings:
+      example:
+        notification:
+          incoming_webhook:
+            webhooks_url: https://openapi-generator.tech
+            slack_team_name: slack_team_name
+            slack_channel_name: slack_channel_name
+            enabled: true
+          email:
+            enabled: true
+          interval_hours: 11
+        health_check:
+          protocol: ping
+          interval_minutes: 36
+        enabled: true
+      properties:
+        enabled:
+          description: |-
+            監視のON/OFF
+            * true 監視ON
+            * false 監視OFF
+          type: boolean
+        health_check:
+          $ref: '#/components/schemas/ServerMonitoring_settings_health_check'
+        notification:
+          $ref: '#/components/schemas/ServerMonitoring_settings_notification'
+      required:
+      - enabled
+      - health_check
+      - notification
+      type: object
+    Role_allowed_resources:
+      description: 利用できるリソース。resource_filteringがenabledの場合のみ指定可能。
+      example:
+        servers:
+        - 1
+        - 2
+        - 3
+        nfs_servers:
+        - 1
+        - 2
+        - 3
+        switches:
+        - 1
+        - 2
+        - 3
+      nullable: true
+      properties:
+        servers:
+          description: 利用できるサーバーのid
+          example:
+          - 1
+          - 2
+          - 3
+          items:
+            type: integer
+          type: array
+        switches:
+          description: 利用できるスイッチのid
+          example:
+          - 1
+          - 2
+          - 3
+          items:
+            type: integer
+          type: array
+        nfs_servers:
+          description: 利用できるNFSのid
+          example:
+          - 1
+          - 2
+          - 3
+          items:
+            type: integer
+          type: array
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      description: コンパネで発行したApiKey
+      scheme: bearer
+      type: http
