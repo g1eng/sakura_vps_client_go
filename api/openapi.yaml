@@ -2667,6 +2667,23 @@ paths:
     get:
       operationId: get-api-key-list
       parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
       - description: "データの並び順。項目名の頭に`-`をつけると降順で取得する  \n例:\n* 名称昇順: sort=name\n* 名称\
           降順: sort=-name"
         explode: true
@@ -3019,6 +3036,23 @@ paths:
     get:
       operationId: get-role-list
       parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
       - description: "データの並び順。項目名の頭に`-`をつけると降順で取得する  \n例:\n* 名称昇順: sort=name\n* 名称\
           降順: sort=-name"
         explode: true
@@ -3309,6 +3343,23 @@ paths:
     get:
       operationId: get-permission-list
       parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
       - description: カテゴリーで絞り込む
         example: server
         explode: true

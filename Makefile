@@ -1,6 +1,6 @@
 NAME=sakura_vps_client_go
 
-all: download_spec extract_cc_spec generate_models modify_gitignore put_readme
+all: download_spec extract_and_modify_cc_spec generate_models modify_gitignore put_readme
 
 put_readme:
 	./put_readme.sh;\
@@ -23,8 +23,9 @@ download_spec:
 	[ -d spec ] || mkdir spec \
 	&& curl -fSL -o spec/openapi.json https://manual.sakura.ad.jp/vps/api/api-doc/api-json.json
 
-extract_cc_spec:
-	./extract_spec_cc.sh
+extract_and_modify_cc_spec: spec/openapi.json
+	./scripts/extract_spec_cc.sh spec/openapi.json spec/spec-tmp.json
+	./scripts/fix_spec.sh spec/spec-tmp.json spec/spec.json
 
 test:
 	go test -test.v ./...

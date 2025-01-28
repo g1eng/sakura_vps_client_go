@@ -221,7 +221,7 @@ Name | Type | Description  | Notes
 
 ## GetApiKeyList
 
-> GetApiKeyList200Response GetApiKeyList(ctx).Order(order).Role(role).Search(search).Execute()
+> GetApiKeyList200Response GetApiKeyList(ctx).Page(page).PerPage(perPage).Order(order).Role(role).Search(search).Execute()
 
 APIキーの一覧を取得する
 
@@ -238,13 +238,15 @@ import (
 )
 
 func main() {
+	page := int32(56) // int32 |  (optional)
+	perPage := int32(56) // int32 |  (optional) (default to 10)
 	order := "order_example" // string | データの並び順。項目名の頭に`-`をつけると降順で取得する   例: * 名称昇順: sort=name * 名称降順: sort=-name (optional)
 	role := int32(56) // int32 | roleのid。ロールで絞り込む (optional)
 	search := "search_example" // string | 名前から部分一致検索 (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ApiKeyAPI.GetApiKeyList(context.Background()).Order(order).Role(role).Search(search).Execute()
+	resp, r, err := apiClient.ApiKeyAPI.GetApiKeyList(context.Background()).Page(page).PerPage(perPage).Order(order).Role(role).Search(search).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ApiKeyAPI.GetApiKeyList``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -265,6 +267,8 @@ Other parameters are passed through a pointer to a apiGetApiKeyListRequest struc
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **page** | **int32** |  | 
+ **perPage** | **int32** |  | [default to 10]
  **order** | **string** | データの並び順。項目名の頭に&#x60;-&#x60;をつけると降順で取得する   例: * 名称昇順: sort&#x3D;name * 名称降順: sort&#x3D;-name | 
  **role** | **int32** | roleのid。ロールで絞り込む | 
  **search** | **string** | 名前から部分一致検索 | 
@@ -289,7 +293,7 @@ Name | Type | Description  | Notes
 
 ## GetPermissionList
 
-> GetPermissionList200Response GetPermissionList(ctx).Category(category).Code(code).Execute()
+> GetPermissionList200Response GetPermissionList(ctx).Page(page).PerPage(perPage).Category(category).Code(code).Execute()
 
 権限の一覧を取得する
 
@@ -306,12 +310,14 @@ import (
 )
 
 func main() {
+	page := int32(56) // int32 |  (optional)
+	perPage := int32(56) // int32 |  (optional) (default to 10)
 	category := "server" // string | カテゴリーで絞り込む (optional)
 	code := "get-server-list,get-server,put-server" // string | コードで絞り込む。カンマ区切りで複数指定可能。 (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ApiKeyAPI.GetPermissionList(context.Background()).Category(category).Code(code).Execute()
+	resp, r, err := apiClient.ApiKeyAPI.GetPermissionList(context.Background()).Page(page).PerPage(perPage).Category(category).Code(code).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ApiKeyAPI.GetPermissionList``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -332,6 +338,8 @@ Other parameters are passed through a pointer to a apiGetPermissionListRequest s
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **page** | **int32** |  | 
+ **perPage** | **int32** |  | [default to 10]
  **category** | **string** | カテゴリーで絞り込む | 
  **code** | **string** | コードで絞り込む。カンマ区切りで複数指定可能。 | 
 
@@ -423,7 +431,7 @@ Name | Type | Description  | Notes
 
 ## GetRoleList
 
-> GetRoleList200Response GetRoleList(ctx).Order(order).Search(search).Execute()
+> GetRoleList200Response GetRoleList(ctx).Page(page).PerPage(perPage).Order(order).Search(search).Execute()
 
 ロール一覧を取得する
 
@@ -440,12 +448,14 @@ import (
 )
 
 func main() {
+	page := int32(56) // int32 |  (optional)
+	perPage := int32(56) // int32 |  (optional) (default to 10)
 	order := "order_example" // string | データの並び順。項目名の頭に`-`をつけると降順で取得する   例: * 名称昇順: sort=name * 名称降順: sort=-name (optional)
 	search := "search_example" // string | 名前と説明文から部分一致検索 (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ApiKeyAPI.GetRoleList(context.Background()).Order(order).Search(search).Execute()
+	resp, r, err := apiClient.ApiKeyAPI.GetRoleList(context.Background()).Page(page).PerPage(perPage).Order(order).Search(search).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ApiKeyAPI.GetRoleList``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -466,6 +476,8 @@ Other parameters are passed through a pointer to a apiGetRoleListRequest struct 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **page** | **int32** |  | 
+ **perPage** | **int32** |  | [default to 10]
  **order** | **string** | データの並び順。項目名の頭に&#x60;-&#x60;をつけると降順で取得する   例: * 名称昇順: sort&#x3D;name * 名称降順: sort&#x3D;-name | 
  **search** | **string** | 名前と説明文から部分一致検索 | 
 
