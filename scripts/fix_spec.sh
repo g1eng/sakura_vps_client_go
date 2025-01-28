@@ -24,5 +24,4 @@ DST=${2:?no destination file specified}
   l=$((l+1))
   
   done < $SRC
-  echo "}"
 } > $DST

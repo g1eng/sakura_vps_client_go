@@ -3,11 +3,12 @@ NAME=sakura_vps_client_go
 all: download_spec extract_and_modify_cc_spec generate_models modify_gitignore put_readme
 
 put_readme:
-	./put_readme.sh;\
+	./scripts/put_readme.sh;\
 	rm -rv spec
 
 modify_gitignore:
 	echo /.idea >> .gitignore
+	echo /.*.swp >> .gitignore
 	
 
 generate_models: spec/spec.json
