@@ -447,9 +447,21 @@ func (a *ApiKeyAPIService) GetApiKeyExecute(r ApiGetApiKeyRequest) (*ApiKey, *ht
 type ApiGetApiKeyListRequest struct {
 	ctx context.Context
 	ApiService *ApiKeyAPIService
+	page *int32
+	perPage *int32
 	order *string
 	role *int32
 	search *string
+}
+
+func (r ApiGetApiKeyListRequest) Page(page int32) ApiGetApiKeyListRequest {
+	r.page = &page
+	return r
+}
+
+func (r ApiGetApiKeyListRequest) PerPage(perPage int32) ApiGetApiKeyListRequest {
+	r.perPage = &perPage
+	return r
 }
 
 // データの並び順。項目名の頭に&#x60;-&#x60;をつけると降順で取得する   例: * 名称昇順: sort&#x3D;name * 名称降順: sort&#x3D;-name
@@ -508,6 +520,15 @@ func (a *ApiKeyAPIService) GetApiKeyListExecute(r ApiGetApiKeyListRequest) (*Get
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.page != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
+	}
+	if r.perPage != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "per_page", r.perPage, "form", "")
+	} else {
+		var defaultValue int32 = 10
+		r.perPage = &defaultValue
+	}
 	if r.order != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "order", r.order, "form", "")
 	}
@@ -617,8 +638,20 @@ func (a *ApiKeyAPIService) GetApiKeyListExecute(r ApiGetApiKeyListRequest) (*Get
 type ApiGetPermissionListRequest struct {
 	ctx context.Context
 	ApiService *ApiKeyAPIService
+	page *int32
+	perPage *int32
 	category *string
 	code *string
+}
+
+func (r ApiGetPermissionListRequest) Page(page int32) ApiGetPermissionListRequest {
+	r.page = &page
+	return r
+}
+
+func (r ApiGetPermissionListRequest) PerPage(perPage int32) ApiGetPermissionListRequest {
+	r.perPage = &perPage
+	return r
 }
 
 // カテゴリーで絞り込む
@@ -671,6 +704,15 @@ func (a *ApiKeyAPIService) GetPermissionListExecute(r ApiGetPermissionListReques
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.page != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
+	}
+	if r.perPage != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "per_page", r.perPage, "form", "")
+	} else {
+		var defaultValue int32 = 10
+		r.perPage = &defaultValue
+	}
 	if r.category != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "category", r.category, "form", "")
 	}
@@ -910,8 +952,20 @@ func (a *ApiKeyAPIService) GetRoleExecute(r ApiGetRoleRequest) (*Role, *http.Res
 type ApiGetRoleListRequest struct {
 	ctx context.Context
 	ApiService *ApiKeyAPIService
+	page *int32
+	perPage *int32
 	order *string
 	search *string
+}
+
+func (r ApiGetRoleListRequest) Page(page int32) ApiGetRoleListRequest {
+	r.page = &page
+	return r
+}
+
+func (r ApiGetRoleListRequest) PerPage(perPage int32) ApiGetRoleListRequest {
+	r.perPage = &perPage
+	return r
 }
 
 // データの並び順。項目名の頭に&#x60;-&#x60;をつけると降順で取得する   例: * 名称昇順: sort&#x3D;name * 名称降順: sort&#x3D;-name
@@ -964,6 +1018,15 @@ func (a *ApiKeyAPIService) GetRoleListExecute(r ApiGetRoleListRequest) (*GetRole
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.page != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
+	}
+	if r.perPage != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "per_page", r.perPage, "form", "")
+	} else {
+		var defaultValue int32 = 10
+		r.perPage = &defaultValue
+	}
 	if r.order != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "order", r.order, "form", "")
 	}

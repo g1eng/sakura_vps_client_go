@@ -1,6 +1,7 @@
 #!/bin/sh -ex
 
-ORIGINAL_SPEC_PATH=${ORIGINAL_SPEC_PATH:-spec/openapi.json}
+ORIGINAL_SPEC_PATH=${ORIGINAL_SPEC_PATH:-${1:?no source specified}}
+: ${2:?no destination specified}
 
 {
   echo '{'
@@ -17,5 +18,5 @@ ORIGINAL_SPEC_PATH=${ORIGINAL_SPEC_PATH:-spec/openapi.json}
   echo ',"components":'
   jq .components < ${ORIGINAL_SPEC_PATH}
   echo '}'
-} | jq . | tee ${SPEC_PATH:-spec/spec.json}
-rm -v ${ORIGINAL_SPEC_PATH}
+} | jq . | tee ${SPEC_PATH:-$2}
+#rm -v ${ORIGINAL_SPEC_PATH}
