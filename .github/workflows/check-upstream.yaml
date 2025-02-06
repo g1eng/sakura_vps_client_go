@@ -2,7 +2,7 @@ name: check upstream changes
 
 on:
   schedule:
-    - cron:  '40 15 * * *'
+    - cron:  '50 15,0 * * *'
 jobs:
   build:
     runs-on: ubuntu-latest
