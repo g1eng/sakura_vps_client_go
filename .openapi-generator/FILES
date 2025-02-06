@@ -45,6 +45,7 @@ docs/NfsServerInterface.md
 docs/NfsServerIpv4.md
 docs/NfsServerPowerStatus.md
 docs/NfsServerStorageInner.md
+docs/NfsStorageInfo.md
 docs/Pagination.md
 docs/Permission.md
 docs/PostNfsServerChangeIpv4Request.md
@@ -123,6 +124,7 @@ model_nfs_server_interface.go
 model_nfs_server_ipv4.go
 model_nfs_server_power_status.go
 model_nfs_server_storage_inner.go
+model_nfs_storage_info.go
 model_pagination.go
 model_permission.go
 model_post_nfs_server_change_ipv4_request.go

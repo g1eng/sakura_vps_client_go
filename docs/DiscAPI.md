@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## GetDiscList
 
-> GetDiscList200Response GetDiscList(ctx).Execute()
+> GetDiscList200Response GetDiscList(ctx).Page(page).PerPage(perPage).Execute()
 
 ディスク情報一覧を取得する
 
@@ -29,10 +29,12 @@ import (
 )
 
 func main() {
+	page := int32(56) // int32 |  (optional)
+	perPage := int32(56) // int32 |  (optional) (default to 10)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DiscAPI.GetDiscList(context.Background()).Execute()
+	resp, r, err := apiClient.DiscAPI.GetDiscList(context.Background()).Page(page).PerPage(perPage).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DiscAPI.GetDiscList``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -44,12 +46,17 @@ func main() {
 
 ### Path Parameters
 
-This endpoint does not need any parameter.
+
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiGetDiscListRequest struct via the builder pattern
 
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **page** | **int32** |  | 
+ **perPage** | **int32** |  | [default to 10]
 
 ### Return type
 
