@@ -4,6 +4,7 @@ on:
   schedule:
     - cron:  '30 15 * * *'
   workflow_run:
+    workflows: ["check upstream changes and sync automatically"]
     branches:
       - sync
       - fix-sync-script-4.4.1
