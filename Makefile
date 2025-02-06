@@ -4,6 +4,7 @@ all: download_spec extract_cc_spec generate_models modify_gitignore put_readme
 
 put_readme:
 	./scripts/put_readme.sh; 
+	rm -rv spec/openapi.json
 
 modify_gitignore:
 	echo /.idea >> .gitignore
