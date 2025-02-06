@@ -1,0 +1,35 @@
+name: check upstream changes and sync automatically
+
+on:
+  schedule:
+    - cron:  '20 15 * * *'
+  push:
+    branches:
+      - sync
+      - fix-sync-script-4.4.1
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.23
+      - name: download openapi-generator
+        run: wget -O openapi-generator-cli.jar  "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.8.0/openapi-generator-cli-7.8.0.jar"
+      - name: install wrapper script
+        run: sudo sh -c "printf -- \#!/bin/sh\ -ex\\\njava\ -jar\ openapi-generator-cli.jar\ \\\$@\\\n > /usr/bin/openapi-generator; chmod +x /usr/bin/openapi-generator"
+      - name: download the latest spec check changes exist
+        run: make check_diff
+      - name: generate model
+        run: make
+      - name: commit
+        run: |
+          git config --local user.name "Suzume Nomura"
+          git config --local user.email SuzuME@ea.g1e.org
+          git add .
+          git commit -m "sync upstream"
+          { echo g1eng; echo ${secrets.RELEASE_GH_TOKEN$}; } git push

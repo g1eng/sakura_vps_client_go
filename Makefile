@@ -1,6 +1,8 @@
 NAME=sakura_vps_client_go
 
-all: download_spec extract_cc_spec generate_models modify_gitignore put_readme
+all: download_spec diff_spec extract_cc_spec generate_models modify_gitignore put_readme
+
+check_diff: download_spec diff_spec 
 
 put_readme:
 	./scripts/put_readme.sh; 
@@ -21,9 +23,12 @@ generate_models: spec/spec.json
 		-o . ;\
 	go mod tidy
 
+diff_spec:
+	[ -f spec/openapi.json ] && diff spec/openapi.json spec/openapi-next.json && exit 1 || mv -v spec/openapi-next.json spec/openapi.json
+
 download_spec:
 	[ -d spec ] || mkdir spec \
-	&& curl -fSL -o spec/openapi.json https://manual.sakura.ad.jp/vps/api/api-doc/api-json.json
+	&& curl -fSL -o spec/openapi-next.json https://manual.sakura.ad.jp/vps/api/api-doc/api-json.json
 
 extract_cc_spec: spec/openapi.json
 	./scripts/extract_spec_cc.sh spec/openapi.json spec/spec-tmp.json
