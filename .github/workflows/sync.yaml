@@ -1,10 +1,8 @@
 name: check upstream changes and sync automatically
 
 on:
-  schedule:
-    - cron:  '30 15 * * *'
   workflow_run:
-    workflows: ["check upstream changes and sync automatically"]
+    workflows: ["check upstream changes"]
     branches:
       - sync
       - fix-sync-script-4.4.1
@@ -23,8 +21,6 @@ jobs:
         run: wget -O openapi-generator-cli.jar  "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.8.0/openapi-generator-cli-7.8.0.jar"
       - name: install wrapper script
         run: sudo sh -c "printf -- \#!/bin/sh\ -ex\\\njava\ -jar\ openapi-generator-cli.jar\ \\\$@\\\n > /usr/bin/openapi-generator; chmod +x /usr/bin/openapi-generator"
-      - name: download the latest spec check changes exist
-        run: make check_diff
       - name: generate model
         run: make
       - name: commit

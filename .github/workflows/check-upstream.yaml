@@ -1,0 +1,14 @@
+name: check upstream changes
+
+on:
+  schedule:
+    - cron:  '40 15 * * *'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: download the latest spec check changes exist
+        run: make check_diff
