@@ -6,6 +6,7 @@
 
 このパッケージは[さくらインターネット](https://www.sakura.ad.jp)が著作権を有する仕様書(バージョン: "4.4.1")を元として作成されています。
 
+
 # 利用方法
 
 本リポジトリでは、クライアントライブラリの包括的な利用方法のサポートを提供しません。
@@ -17,6 +18,10 @@ goplsのようなLSPサーバーを用いれば、それぞれの関数の利用
 # ライセンス
 
 Apache 2.0
+
+ただし、[仕様書](/spec/spec.json)は[CC-BY 4.0国際ライセンス](https://creativecommons.org/licenses/by/4.0/deed.ja)で許諾されます。
+
+
 
 
 # Go API client for sakura_vps_client_go

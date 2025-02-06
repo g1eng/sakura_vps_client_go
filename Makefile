@@ -24,7 +24,9 @@ generate_models: spec/spec.json
 	go mod tidy
 
 diff_spec:
-	[ -f spec/openapi.json ] && diff spec/openapi.json spec/openapi-next.json && exit 1 || mv -v spec/openapi-next.json spec/openapi.json
+	[ -f spec/openapi.json ] \
+		&& diff spec/openapi.json spec/openapi-next.json && exit 1 \
+		|| mv -v spec/openapi-next.json spec/openapi.json
 
 download_spec:
 	[ -d spec ] || mkdir spec \

@@ -2,8 +2,8 @@ name: check upstream changes and sync automatically
 
 on:
   schedule:
-    - cron:  '20 15 * * *'
-  push:
+    - cron:  '30 15 * * *'
+  workflow_run:
     branches:
       - sync
       - fix-sync-script-4.4.1
