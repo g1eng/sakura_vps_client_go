@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: さくらのVPS APIドキュメント
-  version: 4.3.0
+  version: 4.4.1
   x-logo:
     url: logo.svg
     altText: さくらのVPS APIドキュメント
@@ -826,6 +826,23 @@ paths:
     get:
       operationId: get-server-interface-list
       parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
       - description: サーバーID
         explode: false
         in: path
@@ -2226,6 +2243,72 @@ paths:
       summary: NFSのインターフェース情報を更新する
       tags:
       - nfs-server
+  /nfs-servers/{nfs_server_id}/storage:
+    get:
+      operationId: get-nfs-server-storage
+      parameters:
+      - description: NFSのID
+        explode: false
+        in: path
+        name: nfs_server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NfsStorageInfo'
+          description: 成功
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: NFSが見つからない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails409'
+          description: ストレージ容量情報を取得できない状態
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails503'
+          description: 一時的にストレージ容量情報を取得できない
+      summary: NFSのストレージ容量情報を取得する
+      tags:
+      - nfs-server
   /switches:
     get:
       operationId: get-switch-list
@@ -2588,6 +2671,24 @@ paths:
     get:
       description: 追加ソフトウェアのディスク情報です。WindowsのCDドライブにマウントして利用します。
       operationId: get-disc-list
+      parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
       responses:
         "200":
           content:
@@ -2627,6 +2728,24 @@ paths:
   /zones:
     get:
       operationId: get-zone-list
+      parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
       responses:
         "200":
           content:
@@ -4317,6 +4436,39 @@ components:
       - id
       - mac
       - switch_id
+      type: object
+    NfsStorageInfo:
+      example:
+        usage_percentage: 1
+        free_space_kib: 411501820
+        capacity_kib: 411564672
+        usage_kib: 62852
+      properties:
+        free_space_kib:
+          description: ストレージの空き容量（KiB）
+          example: 411501820
+          readOnly: true
+          type: integer
+        usage_percentage:
+          description: ストレージの使用率
+          example: 1
+          readOnly: true
+          type: integer
+        capacity_kib:
+          description: ストレージの全容量（KiB）
+          example: 411564672
+          readOnly: true
+          type: integer
+        usage_kib:
+          description: ストレージの使用容量（KiB）
+          example: 62852
+          readOnly: true
+          type: integer
+      required:
+      - capacity_kib
+      - free_space_kib
+      - usage_kib
+      - usage_percentage
       type: object
     Switch:
       example:

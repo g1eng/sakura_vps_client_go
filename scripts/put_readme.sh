@@ -2,7 +2,7 @@
 
 API_VERSION=`jq .info.version < spec/spec.json`
 cp README.md README.md.swp
-awk "{ gsub(\": 不明\",\": ${API_VERSION:-不明}\"); print }" < README.tpl > README.md
+awk -v version=": ${API_VERSION:-不明}"  '{ gsub(": 不明",version); print }' < README.tpl > README.md
 {
   echo
   echo

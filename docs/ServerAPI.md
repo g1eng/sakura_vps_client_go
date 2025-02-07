@@ -241,7 +241,7 @@ Name | Type | Description  | Notes
 
 ## GetServerInterfaceList
 
-> GetServerInterfaceList200Response GetServerInterfaceList(ctx, serverId).Execute()
+> GetServerInterfaceList200Response GetServerInterfaceList(ctx, serverId).Page(page).PerPage(perPage).Execute()
 
 サーバーのインターフェース情報一覧を取得する
 
@@ -259,10 +259,12 @@ import (
 
 func main() {
 	serverId := int32(56) // int32 | サーバーID
+	page := int32(56) // int32 |  (optional)
+	perPage := int32(56) // int32 |  (optional) (default to 10)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ServerAPI.GetServerInterfaceList(context.Background(), serverId).Execute()
+	resp, r, err := apiClient.ServerAPI.GetServerInterfaceList(context.Background(), serverId).Page(page).PerPage(perPage).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ServerAPI.GetServerInterfaceList``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -288,6 +290,8 @@ Other parameters are passed through a pointer to a apiGetServerInterfaceListRequ
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+ **page** | **int32** |  | 
+ **perPage** | **int32** |  | [default to 10]
 
 ### Return type
 

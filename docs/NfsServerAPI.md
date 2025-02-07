@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**GetNfsServerInterface**](NfsServerAPI.md#GetNfsServerInterface) | **Get** /nfs-servers/{nfs_server_id}/interface | NFSのインターフェースを取得する
 [**GetNfsServerList**](NfsServerAPI.md#GetNfsServerList) | **Get** /nfs-servers | NFS情報一覧を取得する
 [**GetNfsServerPowerStatus**](NfsServerAPI.md#GetNfsServerPowerStatus) | **Get** /nfs-servers/{nfs_server_id}/power-status | NFSの電源状態を取得する
+[**GetNfsServerStorage**](NfsServerAPI.md#GetNfsServerStorage) | **Get** /nfs-servers/{nfs_server_id}/storage | NFSのストレージ容量情報を取得する
 [**PostNfsServerChangeIpv4**](NfsServerAPI.md#PostNfsServerChangeIpv4) | **Post** /nfs-servers/{nfs_server_id}/change-ipv4 | NFSのipv4を更新する
 [**PutNfsServer**](NfsServerAPI.md#PutNfsServer) | **Put** /nfs-servers/{nfs_server_id} | NFS情報を更新する
 [**PutNfsServerInterface**](NfsServerAPI.md#PutNfsServerInterface) | **Put** /nfs-servers/{nfs_server_id}/interface | NFSのインターフェース情報を更新する
@@ -277,6 +278,74 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**NfsServerPowerStatus**](NfsServerPowerStatus.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetNfsServerStorage
+
+> NfsStorageInfo GetNfsServerStorage(ctx, nfsServerId).Execute()
+
+NFSのストレージ容量情報を取得する
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/g1eng/sakura_vps_client_go"
+)
+
+func main() {
+	nfsServerId := int32(56) // int32 | NFSのID
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.NfsServerAPI.GetNfsServerStorage(context.Background(), nfsServerId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `NfsServerAPI.GetNfsServerStorage``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetNfsServerStorage`: NfsStorageInfo
+	fmt.Fprintf(os.Stdout, "Response from `NfsServerAPI.GetNfsServerStorage`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**nfsServerId** | **int32** | NFSのID | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetNfsServerStorageRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**NfsStorageInfo**](NfsStorageInfo.md)
 
 ### Authorization
 
