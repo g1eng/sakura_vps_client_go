@@ -2,7 +2,7 @@ NAME=sakura_vps_client_go
 
 all: download_spec extract_cc_spec diff_spec generate_models modify_gitignore put_readme
 
-check_diff: download_spec diff_spec 
+check_diff: download_spec extract_cc_spec diff_spec 
 
 put_readme:
 	./scripts/put_readme.sh; 
