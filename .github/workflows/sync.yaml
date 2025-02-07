@@ -1,4 +1,4 @@
-name: check upstream changes and sync automatically
+name: sync automatically
 
 on:
   workflow_run:
