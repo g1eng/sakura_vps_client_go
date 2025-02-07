@@ -4,8 +4,7 @@ on:
   workflow_run:
     workflows: ["check upstream changes"]
     branches:
-      - sync
-      - fix-sync-script-4.4.1
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
