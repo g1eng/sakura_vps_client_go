@@ -28,4 +28,4 @@ jobs:
           git config --local user.email SuzuME@ea.g1e.org
           git add .
           git commit -m "sync upstream"
-          { echo g1eng; echo ${secrets.RELEASE_GH_TOKEN}; } | git push
+          { echo g1eng; echo ${{ secrets.RELEASE_GH_TOKEN }}; } | git push
