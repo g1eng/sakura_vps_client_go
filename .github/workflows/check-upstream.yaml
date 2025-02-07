@@ -3,7 +3,7 @@ name: check upstream changes
 on:
   workflow_dispatch: {}
   schedule:
-    - cron:  '30 16 * * *'
+    - cron:  '35,40,45 16 * * *'
 jobs:
   build:
     runs-on: ubuntu-latest
