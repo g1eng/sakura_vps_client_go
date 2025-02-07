@@ -5,7 +5,7 @@
     "title": "さくらのVPS APIドキュメント",
     "x-logo": {
       "url": "logo.svg",
-      "altText": "さくらのVPS APIドキュメント"
+      "altText": "さくらのVPS APIドキュメント" 
     }
   },
   "servers": [
