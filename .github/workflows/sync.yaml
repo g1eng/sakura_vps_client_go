@@ -28,4 +28,10 @@ jobs:
           git config --local user.email SuzuME@ea.g1e.org
           git add .
           git commit -m "sync upstream"
-          { echo g1eng; echo ${{ secrets.RELEASE_GH_TOKEN }}; } | git push
+      - name: push updated contents
+        run: |
+          test -d ~/.ssh || mkdir -v ~/.ssh
+          echo ${{ secrets.SYNC_SSH_PRIVKEY }}; } > ~/.ssh/id_rsa
+          chmod go-rwx -R ~/.ssh
+          git remote add r git@github.com:g1eng/sakura_vps_client_go.git
+          git push -u main r/main
