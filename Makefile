@@ -11,6 +11,8 @@ put_readme:
 modify_gitignore:
 	echo /.idea >> .gitignore
 	echo /.*.swp >> .gitignore
+	echo /spec/spec-tmp.json >> .gitignore
+	echo /spec/openapi-next.json >> .gitignore
 	
 
 generate_models: spec/spec.json

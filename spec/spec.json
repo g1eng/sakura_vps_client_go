@@ -1,11 +1,11 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "version": "4.4.1",
+    "version": "4.5.1",
     "title": "さくらのVPS APIドキュメント",
     "x-logo": {
       "url": "logo.svg",
-      "altText": "さくらのVPS APIドキュメント" 
+      "altText": "さくらのVPS APIドキュメント"
     }
   },
   "servers": [
@@ -1885,6 +1885,196 @@
           },
           "503": {
             "description": "電源状態が取得できない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails503"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nfs-servers/{nfs_server_id}/power-on": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/NfsServerID"
+        }
+      ],
+      "post": {
+        "summary": "NFSを起動する",
+        "tags": [
+          "nfs-server"
+        ],
+        "operationId": "post-nfs-server-power-on",
+        "responses": {
+          "202": {
+            "description": "NFS起動コマンドの送信を完了"
+          },
+          "401": {
+            "$ref": "#/components/responses/Generic401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Generic403"
+          },
+          "404": {
+            "description": "NFSが見つからない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails404"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "起動リクエストを受け付けない状態にある（設定状況が設定完了になっていない場合や、既に起動中の場合など）",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails409"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/Generic429"
+          },
+          "503": {
+            "description": "NFS起動コマンドの送信に失敗した",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails503"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nfs-servers/{nfs_server_id}/force-reboot": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/NfsServerID"
+        }
+      ],
+      "post": {
+        "summary": "NFSを強制再起動する",
+        "tags": [
+          "nfs-server"
+        ],
+        "operationId": "post-nfs-server-force-reboot",
+        "responses": {
+          "202": {
+            "description": "NFS強制再起動コマンドの送信を完了"
+          },
+          "401": {
+            "$ref": "#/components/responses/Generic401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Generic403"
+          },
+          "404": {
+            "description": "NFSが見つからない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails404"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "再起動リクエストを受け付けない状態にある（設定状況が設定完了になっていない場合など）",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails409"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/Generic429"
+          },
+          "503": {
+            "description": "NFS再起動コマンドの送信に失敗した",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails503"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nfs-servers/{nfs_server_id}/shutdown": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/NfsServerID"
+        }
+      ],
+      "post": {
+        "summary": "NFSをシャットダウンする",
+        "tags": [
+          "nfs-server"
+        ],
+        "operationId": "post-nfs-server-shutdown",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "force": {
+                    "type": "boolean",
+                    "description": "強制停止を行うか",
+                    "default": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "NFSシャットダウンコマンドの送信を完了"
+          },
+          "401": {
+            "$ref": "#/components/responses/Generic401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Generic403"
+          },
+          "404": {
+            "description": "NFSが見つからない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails404"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "シャットダウンリクエストを受け付けない状態にある（設定状況が設定完了になっていない場合や、すでにシャットダウンされている場合など）",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails409"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/Generic429"
+          },
+          "503": {
+            "description": "NFSシャットダウンコマンドの送信に失敗した",
             "content": {
               "application/json": {
                 "schema": {
