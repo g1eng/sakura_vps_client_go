@@ -5,6 +5,7 @@ on:
     workflows: ["check upstream changes"]
     branches:
       - main
+      - fix-gha
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,18 +21,7 @@ jobs:
         run: wget -O openapi-generator-cli.jar  "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.8.0/openapi-generator-cli-7.8.0.jar"
       - name: install wrapper script
         run: sudo sh -c "printf -- \#!/bin/sh\ -ex\\\njava\ -jar\ openapi-generator-cli.jar\ \\\$@\\\n > /usr/bin/openapi-generator; chmod +x /usr/bin/openapi-generator"
-      - name: generate model
-        run: make
-      - name: commit
+      - name: sync
         run: |
-          git config --local user.name "Suzume Nomura"
-          git config --local user.email SuzuME@ea.g1e.org
-          git add .
-          git commit -m "sync upstream"
-      - name: push updated contents
-        run: |
-          test -d ~/.ssh || mkdir -v ~/.ssh
-          echo ${{ secrets.SYNC_SSH_PRIVKEY }}; } > ~/.ssh/id_rsa
-          chmod go-rwx -R ~/.ssh
-          git remote add r git@github.com:g1eng/sakura_vps_client_go.git
-          git push -u main r/main
+          rm -v spec/spec.json
+          make

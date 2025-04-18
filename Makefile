@@ -11,6 +11,8 @@ put_readme:
 modify_gitignore:
 	echo /.idea >> .gitignore
 	echo /.*.swp >> .gitignore
+	echo /spec/spec-tmp.json >> .gitignore
+	echo /spec/openapi-next.json >> .gitignore
 	
 
 generate_models: spec/spec.json
@@ -25,8 +27,7 @@ generate_models: spec/spec.json
 
 diff_spec:
 	[ -f spec/spec.json ] \
-		&& diff spec/spec.json spec/spec-tmp.json && exit 1 \
-		|| mv -v spec/spec-tmp.json spec/spec.json
+		&& diff spec/spec.json spec/spec-tmp.json || exit 1
 
 download_spec:
 	[ -d spec ] || mkdir spec \

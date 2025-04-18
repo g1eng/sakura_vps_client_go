@@ -10,6 +10,9 @@ Method | HTTP request | Description
 [**GetNfsServerPowerStatus**](NfsServerAPI.md#GetNfsServerPowerStatus) | **Get** /nfs-servers/{nfs_server_id}/power-status | NFSの電源状態を取得する
 [**GetNfsServerStorage**](NfsServerAPI.md#GetNfsServerStorage) | **Get** /nfs-servers/{nfs_server_id}/storage | NFSのストレージ容量情報を取得する
 [**PostNfsServerChangeIpv4**](NfsServerAPI.md#PostNfsServerChangeIpv4) | **Post** /nfs-servers/{nfs_server_id}/change-ipv4 | NFSのipv4を更新する
+[**PostNfsServerForceReboot**](NfsServerAPI.md#PostNfsServerForceReboot) | **Post** /nfs-servers/{nfs_server_id}/force-reboot | NFSを強制再起動する
+[**PostNfsServerPowerOn**](NfsServerAPI.md#PostNfsServerPowerOn) | **Post** /nfs-servers/{nfs_server_id}/power-on | NFSを起動する
+[**PostNfsServerShutdown**](NfsServerAPI.md#PostNfsServerShutdown) | **Post** /nfs-servers/{nfs_server_id}/shutdown | NFSをシャットダウンする
 [**PutNfsServer**](NfsServerAPI.md#PutNfsServer) | **Put** /nfs-servers/{nfs_server_id} | NFS情報を更新する
 [**PutNfsServerInterface**](NfsServerAPI.md#PutNfsServerInterface) | **Put** /nfs-servers/{nfs_server_id}/interface | NFSのインターフェース情報を更新する
 
@@ -410,6 +413,206 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **postNfsServerChangeIpv4Request** | [**PostNfsServerChangeIpv4Request**](PostNfsServerChangeIpv4Request.md) |  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## PostNfsServerForceReboot
+
+> PostNfsServerForceReboot(ctx, nfsServerId).Execute()
+
+NFSを強制再起動する
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/g1eng/sakura_vps_client_go"
+)
+
+func main() {
+	nfsServerId := int32(56) // int32 | NFSのID
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.NfsServerAPI.PostNfsServerForceReboot(context.Background(), nfsServerId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `NfsServerAPI.PostNfsServerForceReboot``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**nfsServerId** | **int32** | NFSのID | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPostNfsServerForceRebootRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## PostNfsServerPowerOn
+
+> PostNfsServerPowerOn(ctx, nfsServerId).Execute()
+
+NFSを起動する
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/g1eng/sakura_vps_client_go"
+)
+
+func main() {
+	nfsServerId := int32(56) // int32 | NFSのID
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.NfsServerAPI.PostNfsServerPowerOn(context.Background(), nfsServerId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `NfsServerAPI.PostNfsServerPowerOn``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**nfsServerId** | **int32** | NFSのID | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPostNfsServerPowerOnRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## PostNfsServerShutdown
+
+> PostNfsServerShutdown(ctx, nfsServerId).PostServerShutdownRequest(postServerShutdownRequest).Execute()
+
+NFSをシャットダウンする
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/g1eng/sakura_vps_client_go"
+)
+
+func main() {
+	nfsServerId := int32(56) // int32 | NFSのID
+	postServerShutdownRequest := *openapiclient.NewPostServerShutdownRequest() // PostServerShutdownRequest |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.NfsServerAPI.PostNfsServerShutdown(context.Background(), nfsServerId).PostServerShutdownRequest(postServerShutdownRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `NfsServerAPI.PostNfsServerShutdown``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**nfsServerId** | **int32** | NFSのID | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPostNfsServerShutdownRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **postServerShutdownRequest** | [**PostServerShutdownRequest**](PostServerShutdownRequest.md) |  | 
 
 ### Return type
 

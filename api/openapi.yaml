@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: さくらのVPS APIドキュメント
-  version: 4.4.1
+  version: 4.5.1
   x-logo:
     url: logo.svg
     altText: さくらのVPS APIドキュメント
@@ -2111,6 +2111,197 @@ paths:
                 $ref: '#/components/schemas/ProblemDetails503'
           description: 電源状態が取得できない
       summary: NFSの電源状態を取得する
+      tags:
+      - nfs-server
+  /nfs-servers/{nfs_server_id}/power-on:
+    post:
+      operationId: post-nfs-server-power-on
+      parameters:
+      - description: NFSのID
+        explode: false
+        in: path
+        name: nfs_server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "202":
+          description: NFS起動コマンドの送信を完了
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: NFSが見つからない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails409'
+          description: 起動リクエストを受け付けない状態にある（設定状況が設定完了になっていない場合や、既に起動中の場合など）
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails503'
+          description: NFS起動コマンドの送信に失敗した
+      summary: NFSを起動する
+      tags:
+      - nfs-server
+  /nfs-servers/{nfs_server_id}/force-reboot:
+    post:
+      operationId: post-nfs-server-force-reboot
+      parameters:
+      - description: NFSのID
+        explode: false
+        in: path
+        name: nfs_server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "202":
+          description: NFS強制再起動コマンドの送信を完了
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: NFSが見つからない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails409'
+          description: 再起動リクエストを受け付けない状態にある（設定状況が設定完了になっていない場合など）
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails503'
+          description: NFS再起動コマンドの送信に失敗した
+      summary: NFSを強制再起動する
+      tags:
+      - nfs-server
+  /nfs-servers/{nfs_server_id}/shutdown:
+    post:
+      operationId: post-nfs-server-shutdown
+      parameters:
+      - description: NFSのID
+        explode: false
+        in: path
+        name: nfs_server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/post_server_shutdown_request'
+      responses:
+        "202":
+          description: NFSシャットダウンコマンドの送信を完了
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_401_response'
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_server_list_403_response'
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails404'
+          description: NFSが見つからない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails409'
+          description: シャットダウンリクエストを受け付けない状態にある（設定状況が設定完了になっていない場合や、すでにシャットダウンされている場合など）
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails429'
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails503'
+          description: NFSシャットダウンコマンドの送信に失敗した
+      summary: NFSをシャットダウンする
       tags:
       - nfs-server
   /nfs-servers/{nfs_server_id}/interface:

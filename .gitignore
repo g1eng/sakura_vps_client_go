@@ -24,3 +24,5 @@ _testmain.go
 *.prof
 /.idea
 /.*.swp
+/spec/spec-tmp.json
+/spec/openapi-next.json
