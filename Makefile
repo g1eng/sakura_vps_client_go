@@ -1,9 +1,9 @@
 NAME=sakura_vps_client_go
 OPENAPI_VERSION=7.12.0
 
-all: download_spec extract_cc_spec diff_spec generate_models modify_gitignore put_readme
+all: download_spec spec/spec-tmp.json diff_spec generate_models modify_gitignore put_readme
 
-check_diff: download_spec extract_cc_spec diff_spec 
+check_diff: download_spec spec/spec-tmp.json diff_spec 
 
 put_readme:
 	./scripts/put_readme.sh; 
@@ -35,8 +35,9 @@ download_spec:
 	[ -d spec ] || mkdir spec \
 	&& curl -fSL -o spec/openapi-next.json https://manual.sakura.ad.jp/vps/api/api-doc/api-json.json
 
-extract_cc_spec: spec/openapi-next.json 
+spec/spec-tmp.json: spec/openapi-next.json
 	./scripts/extract_spec_cc.sh spec/openapi-next.json spec/spec-tmp.json
+
 
 test:
 	go test -test.v ./...

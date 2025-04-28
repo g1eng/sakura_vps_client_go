@@ -25,6 +25,4 @@ jobs:
       - name: install wrapper script
         run: sudo sh -c "printf -- \#!/bin/sh\ -ex\\\njava\ -jar\ openapi-generator-cli.jar\ \\\$@\\\n > /usr/bin/openapi-generator; chmod +x /usr/bin/openapi-generator"
       - name: sync
-        run: |
-          rm -v spec/spec.json
-          make
+        run: make
