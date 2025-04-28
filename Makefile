@@ -1,4 +1,5 @@
 NAME=sakura_vps_client_go
+OPENAPI_VERSION=7.12.0
 
 all: download_spec extract_cc_spec diff_spec generate_models modify_gitignore put_readme
 
@@ -16,6 +17,7 @@ modify_gitignore:
 	
 
 generate_models: spec/spec.json
+	openapi-generator version | grep 7\.12\.0  || exit 1 \;
 	openapi-generator generate \
 		-i spec/spec.json \
 		-g go \
