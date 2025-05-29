@@ -4,8 +4,6 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **int32** | id | [readonly] 
-**Device** | **string** | NIC名称 | [readonly] 
 **ConnectTo** | **NullableString** | インターフェースの接続先 | [readonly] 
 **Mac** | **string** | MACアドレス | [readonly] 
 **SwitchId** | **NullableInt32** | スイッチID | 
@@ -14,7 +12,7 @@ Name | Type | Description | Notes
 
 ### NewNfsServerInterface
 
-`func NewNfsServerInterface(id int32, device string, connectTo NullableString, mac string, switchId NullableInt32, ) *NfsServerInterface`
+`func NewNfsServerInterface(connectTo NullableString, mac string, switchId NullableInt32, ) *NfsServerInterface`
 
 NewNfsServerInterface instantiates a new NfsServerInterface object
 This constructor will assign default values to properties that have it defined,
@@ -28,46 +26,6 @@ will change when the set of required properties is changed
 NewNfsServerInterfaceWithDefaults instantiates a new NfsServerInterface object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetId
-
-`func (o *NfsServerInterface) GetId() int32`
-
-GetId returns the Id field if non-nil, zero value otherwise.
-
-### GetIdOk
-
-`func (o *NfsServerInterface) GetIdOk() (*int32, bool)`
-
-GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetId
-
-`func (o *NfsServerInterface) SetId(v int32)`
-
-SetId sets Id field to given value.
-
-
-### GetDevice
-
-`func (o *NfsServerInterface) GetDevice() string`
-
-GetDevice returns the Device field if non-nil, zero value otherwise.
-
-### GetDeviceOk
-
-`func (o *NfsServerInterface) GetDeviceOk() (*string, bool)`
-
-GetDeviceOk returns a tuple with the Device field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDevice
-
-`func (o *NfsServerInterface) SetDevice(v string)`
-
-SetDevice sets Device field to given value.
-
 
 ### GetConnectTo
 

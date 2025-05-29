@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **int32** | id | [readonly] 
-**Device** | **string** | NIC名称 | [readonly] 
+**DisplayName** | **string** | インターフェース名 | [readonly] 
 **ConnectableToGlobalNetwork** | **bool** | グローバルネットワークと接続可能か | [readonly] 
 **ConnectTo** | **NullableString** | インターフェースの接続先 | [readonly] 
 **Mac** | **string** | MACアドレス | [readonly] 
@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 
 ### NewServerInterface
 
-`func NewServerInterface(id int32, device string, connectableToGlobalNetwork bool, connectTo NullableString, mac string, switchId NullableInt32, ) *ServerInterface`
+`func NewServerInterface(id int32, displayName string, connectableToGlobalNetwork bool, connectTo NullableString, mac string, switchId NullableInt32, ) *ServerInterface`
 
 NewServerInterface instantiates a new ServerInterface object
 This constructor will assign default values to properties that have it defined,
@@ -50,24 +50,24 @@ and a boolean to check if the value has been set.
 SetId sets Id field to given value.
 
 
-### GetDevice
+### GetDisplayName
 
-`func (o *ServerInterface) GetDevice() string`
+`func (o *ServerInterface) GetDisplayName() string`
 
-GetDevice returns the Device field if non-nil, zero value otherwise.
+GetDisplayName returns the DisplayName field if non-nil, zero value otherwise.
 
-### GetDeviceOk
+### GetDisplayNameOk
 
-`func (o *ServerInterface) GetDeviceOk() (*string, bool)`
+`func (o *ServerInterface) GetDisplayNameOk() (*string, bool)`
 
-GetDeviceOk returns a tuple with the Device field if it's non-nil, zero value otherwise
+GetDisplayNameOk returns a tuple with the DisplayName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetDevice
+### SetDisplayName
 
-`func (o *ServerInterface) SetDevice(v string)`
+`func (o *ServerInterface) SetDisplayName(v string)`
 
-SetDevice sets Device field to given value.
+SetDisplayName sets DisplayName field to given value.
 
 
 ### GetConnectableToGlobalNetwork
