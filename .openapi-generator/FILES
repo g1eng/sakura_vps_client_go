@@ -166,4 +166,10 @@ model_switch_external_connection_services_inner.go
 model_switch_zone.go
 model_zone.go
 response.go
+test/api_api_key_test.go
+test/api_disc_test.go
+test/api_nfs_server_test.go
+test/api_server_test.go
+test/api_switch_test.go
+test/api_zone_test.go
 utils.go

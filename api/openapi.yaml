@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: さくらのVPS APIドキュメント
-  version: 4.5.1
+  version: 5.0.0
   x-logo:
     url: logo.svg
     altText: さくらのVPS APIドキュメント
@@ -4424,16 +4424,20 @@ components:
         connect_to: global
         id: 0
         switch_id: 1
-        device: eth0
+        display_name: NIC1
         mac: 9C:A3:BA:00:00:00
       properties:
         id:
           description: id
           readOnly: true
           type: integer
-        device:
-          description: NIC名称
-          example: eth0
+        display_name:
+          description: インターフェース名
+          enum:
+          - NIC1
+          - NIC2
+          - NIC3
+          example: NIC1
           readOnly: true
           type: string
         connectable_to_global_network:
@@ -4464,7 +4468,7 @@ components:
       required:
       - connect_to
       - connectable_to_global_network
-      - device
+      - display_name
       - id
       - mac
       - switch_id
@@ -4588,20 +4592,9 @@ components:
     NfsServerInterface:
       example:
         connect_to: switch
-        id: 0
         switch_id: 1
-        device: eth0
         mac: 9C:A3:BA:00:00:00
       properties:
-        id:
-          description: id
-          readOnly: true
-          type: integer
-        device:
-          description: NIC名称
-          example: eth0
-          readOnly: true
-          type: string
         connect_to:
           description: インターフェースの接続先
           enum:
@@ -4623,8 +4616,6 @@ components:
           type: integer
       required:
       - connect_to
-      - device
-      - id
       - mac
       - switch_id
       type: object
@@ -5421,13 +5412,13 @@ components:
           connect_to: global
           id: 0
           switch_id: 1
-          device: eth0
+          display_name: NIC1
           mac: 9C:A3:BA:00:00:00
         - connectable_to_global_network: true
           connect_to: global
           id: 0
           switch_id: 1
-          device: eth0
+          display_name: NIC1
           mac: 9C:A3:BA:00:00:00
     get_server_video_device_200_response:
       example:

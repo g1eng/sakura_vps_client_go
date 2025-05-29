@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "version": "4.5.1",
+    "version": "5.0.0",
     "title": "さくらのVPS APIドキュメント",
     "x-logo": {
       "url": "logo.svg",
@@ -4157,7 +4157,7 @@
         "type": "object",
         "required": [
           "id",
-          "device",
+          "display_name",
           "connectable_to_global_network",
           "connect_to",
           "mac",
@@ -4169,11 +4169,16 @@
             "description": "id",
             "readOnly": true
           },
-          "device": {
+          "display_name": {
             "type": "string",
-            "description": "NIC名称",
-            "example": "eth0",
-            "readOnly": true
+            "description": "インターフェース名",
+            "example": "NIC1",
+            "readOnly": true,
+            "enum": [
+              "NIC1",
+              "NIC2",
+              "NIC3"
+            ]
           },
           "connectable_to_global_network": {
             "type": "boolean",
@@ -4387,24 +4392,11 @@
       "NfsServerInterface": {
         "type": "object",
         "required": [
-          "id",
-          "device",
           "connect_to",
           "mac",
           "switch_id"
         ],
         "properties": {
-          "id": {
-            "type": "integer",
-            "description": "id",
-            "readOnly": true
-          },
-          "device": {
-            "type": "string",
-            "description": "NIC名称",
-            "example": "eth0",
-            "readOnly": true
-          },
           "connect_to": {
             "type": "string",
             "description": "インターフェースの接続先",

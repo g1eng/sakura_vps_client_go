@@ -1314,7 +1314,7 @@ import (
 func main() {
 	serverId := int32(56) // int32 | サーバーID
 	interfaceId := int32(56) // int32 | サーバーインターフェースID
-	serverInterface := *openapiclient.NewServerInterface(int32(123), "eth0", true, "global", "9C:A3:BA:00:00:00", NullableInt32(1)) // ServerInterface |  (optional)
+	serverInterface := *openapiclient.NewServerInterface(int32(123), "NIC1", true, "global", "9C:A3:BA:00:00:00", NullableInt32(1)) // ServerInterface |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

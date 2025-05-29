@@ -722,7 +722,7 @@ import (
 
 func main() {
 	nfsServerId := int32(56) // int32 | NFSのID
-	nfsServerInterface := *openapiclient.NewNfsServerInterface(int32(123), "eth0", "switch", "9C:A3:BA:00:00:00", NullableInt32(1)) // NfsServerInterface |  (optional)
+	nfsServerInterface := *openapiclient.NewNfsServerInterface("switch", "9C:A3:BA:00:00:00", NullableInt32(1)) // NfsServerInterface |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

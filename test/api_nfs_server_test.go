@@ -103,6 +103,45 @@ func Test_sakura_vps_NfsServerAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test NfsServerAPIService PostNfsServerForceReboot", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var nfsServerId int32
+
+		httpRes, err := apiClient.NfsServerAPI.PostNfsServerForceReboot(context.Background(), nfsServerId).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test NfsServerAPIService PostNfsServerPowerOn", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var nfsServerId int32
+
+		httpRes, err := apiClient.NfsServerAPI.PostNfsServerPowerOn(context.Background(), nfsServerId).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test NfsServerAPIService PostNfsServerShutdown", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var nfsServerId int32
+
+		httpRes, err := apiClient.NfsServerAPI.PostNfsServerShutdown(context.Background(), nfsServerId).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test NfsServerAPIService PutNfsServer", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
