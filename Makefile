@@ -23,7 +23,7 @@ generate_models: spec/spec.json
 	openapi-generator generate \
 		-i spec/spec.json \
 		-g go \
-		--package-name sakura_vps \
+		--package-name sakuravps \
 		--git-repo-id sakura_vps_client_go \
 		--git-user-id g1eng \
 		-o . ;\
