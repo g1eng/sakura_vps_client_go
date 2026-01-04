@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "version": "5.0.0",
+    "version": "5.5.4",
     "title": "さくらのVPS APIドキュメント",
     "x-logo": {
       "url": "logo.svg",
@@ -1577,6 +1577,207 @@
         }
       }
     },
+    "/servers/{server_id}/packet-filter": {
+      "get": {
+        "summary": "サーバーのパケットフィルタを取得する",
+        "tags": [
+          "server"
+        ],
+        "operationId": "get-server-packet-filter",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ServerID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PacketFilter"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Generic400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Generic401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Generic403"
+          },
+          "404": {
+            "description": "サーバーが見つからない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails404"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/Generic429"
+          }
+        }
+      },
+      "put": {
+        "summary": "サーバーのパケットフィルタを更新する",
+        "tags": [
+          "server"
+        ],
+        "operationId": "put-server-packet-filter",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ServerID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PacketFilter"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PacketFilter"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Generic400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Generic401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Generic403"
+          },
+          "404": {
+            "description": "サーバーが見つからない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails404"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "パケットフィルタを更新できない状態（OSインストール中やスケールアップ実施中など）",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails409"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/Generic429"
+          },
+          "503": {
+            "description": "パケットフィルタの反映に失敗した",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails503"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/servers/{server_id}/start-migration": {
+      "post": {
+        "summary": "サーバーのホストサーバー移行を開始する",
+        "description": "`ホストサーバー移行`のステータスが`準備完了`のサーバーに対し、ホストサーバーの移行を開始します。  \n事前にサーバーのシャットダウンが必要です。  \n`ホストサーバー移行`についてはVPSマニュアルの[ホストサーバー収容機材変更に伴うVPS移行手順 - ホストサーバー移行作業](https://manual.sakura.ad.jp/vps/support/technical/migration.html#server-migration)をご覧ください。",
+        "tags": [
+          "server"
+        ],
+        "operationId": "post-server-start-migration",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ServerID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "power_on_upon_completion": {
+                    "type": "boolean",
+                    "description": "移行完了時に自動で電源をONにする",
+                    "default": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功"
+          },
+          "400": {
+            "$ref": "#/components/responses/Generic400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Generic401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Generic403"
+          },
+          "404": {
+            "description": "サーバーが見つからない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails404"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "ホストサーバー移行を開始できない状態（ホストサーバー移行のステータスが`ready`でない、電源がOFFになっていないなど）",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails409"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/Generic429"
+          },
+          "503": {
+            "description": "ホストサーバーから電源状態が取得できない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails503"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/nfs-servers": {
       "get": {
         "summary": "NFS情報一覧を取得する",
@@ -2255,6 +2456,84 @@
           },
           "503": {
             "description": "一時的にストレージ容量情報を取得できない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails503"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nfs-servers/{nfs_server_id}/start-migration": {
+      "post": {
+        "summary": "NFSのホストサーバー移行を開始する",
+        "description": "`ホストサーバー移行`のステータスが`準備完了`のNFSサーバーに対し、ホストサーバーの移行を開始します。  \n事前にNFSサーバーのシャットダウンが必要です。  \n`ホストサーバー移行`についてはVPSマニュアルの[ホストサーバー収容機材変更に伴うVPS移行手順 - ホストサーバー移行作業](https://manual.sakura.ad.jp/vps/support/technical/migration.html#server-migration)をご覧ください。",
+        "tags": [
+          "nfs-server"
+        ],
+        "operationId": "post-nfs-server-start-migration",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/NfsServerID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "power_on_upon_completion": {
+                    "type": "boolean",
+                    "description": "移行完了時に自動で電源をONにする",
+                    "default": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功"
+          },
+          "400": {
+            "$ref": "#/components/responses/Generic400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Generic401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Generic403"
+          },
+          "404": {
+            "description": "NFSが見つからない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails404"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "ホストサーバー移行を開始できない状態（ホストサーバー移行のステータスが`ready`でない、電源がOFFになっていないなど）",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails409"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/Generic429"
+          },
+          "503": {
+            "description": "ホストサーバーから電源状態が取得できない",
             "content": {
               "application/json": {
                 "schema": {
@@ -3575,15 +3854,6 @@
           "type": "string"
         }
       },
-      "DiscID": {
-        "in": "path",
-        "name": "disc_id",
-        "description": "ディスクID",
-        "required": true,
-        "schema": {
-          "type": "integer"
-        }
-      },
       "RoleIDPath": {
         "in": "path",
         "name": "role_id",
@@ -3878,7 +4148,8 @@
           "ipv4",
           "ipv6",
           "contract",
-          "power_status"
+          "power_status",
+          "migration_status"
         ],
         "properties": {
           "id": {
@@ -4119,7 +4390,7 @@
           },
           "power_status": {
             "type": "string",
-            "description": "電源ステータス\n* power_on 電源ON\n* in_shutdown シャットダウン中\n* power_off 電源OFF\n* installing OSインストール中\n* in_scaleup スケールアップ中\n* migration サーバー移行作業中\n* unknown 不明（電源状態を取得できない）\nこのエンドポイントが返す電源ステータスはキャッシュされた情報のため、最新の正確な電源ステータスが必要な場合は\n**サーバーの電源状態を取得する**`/servers/{server_id}/power-status`をご利用ください",
+            "description": "電源ステータス\n* power_on 電源ON\n* in_shutdown シャットダウン中\n* power_off 電源OFF\n* installing OSインストール中\n* in_scaleup スケールアップ中\n* migration ホストサーバー移行中\n* unknown 不明（電源状態を取得できない）\nこのエンドポイントが返す電源ステータスはキャッシュされた情報のため、最新の正確な電源ステータスが必要な場合は\n**サーバーの電源状態を取得する**`/servers/{server_id}/power-status`をご利用ください",
             "enum": [
               "power_on",
               "in_shutdown",
@@ -4128,6 +4399,17 @@
               "in_scaleup",
               "migration",
               "unknown"
+            ]
+          },
+          "migration_status": {
+            "type": "string",
+            "nullable": true,
+            "description": "ホストサーバー移行のステータス\n* null 移行予定なし、または準備が始まっていない状態。移行が完了した場合もこの状態に戻ります。\n* preparing 準備中。移行が完了するまでOS再インストールとスケールアップの実行が制限されます。\n* ready 準備完了。お客様の任意のタイミングで移行を開始できます。\n* in_progress 移行実行中\n* error 移行実行中にエラーが発生\n\n`ホストサーバー移行`についてはVPSマニュアルの[ホストサーバー収容機材変更に伴うVPS移行手順](https://manual.sakura.ad.jp/vps/support/technical/migration.html)をご覧ください。",
+            "enum": [
+              "preparing",
+              "ready",
+              "in_progress",
+              "error"
             ]
           }
         }
@@ -4140,7 +4422,7 @@
         "properties": {
           "status": {
             "type": "string",
-            "description": "電源ステータス\n* power_on 電源ON\n* in_shutdown シャットダウン中\n* power_off 電源OFF\n* installing OSインストール中\n* in_scaleup スケールアップ中\n* migration サーバー移行作業中\n* unknown 不明（電源状態を取得できない）",
+            "description": "電源ステータス\n* power_on 電源ON\n* in_shutdown シャットダウン中\n* power_off 電源OFF\n* installing OSインストール中\n* in_scaleup スケールアップ中\n* migration ホストサーバー移行中\n* unknown 不明（電源状態を取得できない）",
             "enum": [
               "power_on",
               "in_shutdown",
@@ -4224,7 +4506,8 @@
           "zone",
           "ipv4",
           "contract",
-          "power_status"
+          "power_status",
+          "migration_status"
         ],
         "properties": {
           "id": {
@@ -4368,6 +4651,17 @@
               "power_off",
               "unknown"
             ]
+          },
+          "migration_status": {
+            "type": "string",
+            "nullable": true,
+            "description": "ホストサーバー移行のステータス\n* null 移行予定なし、または準備が始まっていない状態。移行が完了した場合もこの状態に戻ります。\n* preparing 準備中。移行が完了するまでOS再インストールとスケールアップの実行が制限されます。\n* ready 準備完了。お客様の任意のタイミングで移行を開始できます。\n* in_progress 移行実行中\n* error 移行実行中にエラーが発生\n\n`ホストサーバー移行`についてはVPSマニュアルの[ホストサーバー収容機材変更に伴うVPS移行手順](https://manual.sakura.ad.jp/vps/support/technical/migration.html)をご覧ください。",
+            "enum": [
+              "preparing",
+              "ready",
+              "in_progress",
+              "error"
+            ]
           }
         }
       },
@@ -4379,11 +4673,12 @@
         "properties": {
           "status": {
             "type": "string",
-            "description": "電源ステータス\n* power_on 電源ON\n* in_shutdown シャットダウン中\n* power_off 電源OFF\n* unknown 不明（電源状態を取得できない）",
+            "description": "電源ステータス\n* power_on 電源ON\n* in_shutdown シャットダウン中\n* power_off 電源OFF\n* migration ホストサーバー移行中\n* unknown 不明（電源状態を取得できない）",
             "enum": [
               "power_on",
               "in_shutdown",
               "power_off",
+              "migration",
               "unknown"
             ]
           }
@@ -5047,6 +5342,73 @@
             "description": "最終ステータス変更日時",
             "example": "2024-04-01T23:59:59+09:00",
             "nullable": true
+          }
+        }
+      },
+      "PacketFilter": {
+        "type": "object",
+        "required": [
+          "enabled"
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "パケットフィルタのON/OFF\n* true ON\n* false OFF"
+          },
+          "rules": {
+            "type": "array",
+            "description": "アクセスを許可するルールのリスト\n- 制限\n  - パケットフィルタOFF(enabled: false)の場合は指定できません\n  - 指定できるルール数には制限があります。全ルールのポート定義数の合計が40個まで定義できます。  \n    ポート個別指定\"80\"とポート範囲指定\"8080:8085\"はそれぞれ1個とカウントします。",
+            "items": {
+              "$ref": "#/components/schemas/PacketFilterRule"
+            }
+          }
+        }
+      },
+      "PacketFilterRule": {
+        "type": "object",
+        "required": [
+          "protocol",
+          "name",
+          "ports",
+          "source_ip",
+          "source_ip_prefix_length"
+        ],
+        "properties": {
+          "protocol": {
+            "type": "string",
+            "enum": [
+              "tcp",
+              "udp"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "ports": {
+            "type": "array",
+            "description": "アクセスを許可するポートのリスト",
+            "example": [
+              "80",
+              "8080:8085"
+            ],
+            "items": {
+              "type": "string",
+              "description": "- ポートの個別指定: \"80\"\n- ポートの範囲指定: \"30000:30010\"  \n- 指定できるポートは1～32767まで"
+            }
+          },
+          "source_ip": {
+            "type": "string",
+            "format": "ipv4",
+            "description": "アクセスを許可するipアドレス。ipアドレスで制限しない場合は\"0.0.0.0\"",
+            "example": "0.0.0.0"
+          },
+          "source_ip_prefix_length": {
+            "type": "integer",
+            "description": "source_ipのプレフィックス長。ipアドレスで制限しない場合は0",
+            "minimum": 0,
+            "maximum": 32,
+            "example": 0
           }
         }
       },

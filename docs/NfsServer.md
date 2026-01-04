@@ -14,12 +14,13 @@ Name | Type | Description | Notes
 **Ipv4** | [**NfsServerIpv4**](NfsServerIpv4.md) |  | 
 **Contract** | [**NfsServerContract**](NfsServerContract.md) |  | 
 **PowerStatus** | **string** | 電源ステータス * power_on 電源ON * in_shutdown シャットダウン中 * power_off 電源OFF * unknown 不明（電源状態を取得できない） このエンドポイントが返す電源ステータスはキャッシュされた情報のため、最新の正確な電源ステータスではない場合があります | 
+**MigrationStatus** | **NullableString** | ホストサーバー移行のステータス * null 移行予定なし、または準備が始まっていない状態。移行が完了した場合もこの状態に戻ります。 * preparing 準備中。移行が完了するまでOS再インストールとスケールアップの実行が制限されます。 * ready 準備完了。お客様の任意のタイミングで移行を開始できます。 * in_progress 移行実行中 * error 移行実行中にエラーが発生  &#x60;ホストサーバー移行&#x60;についてはVPSマニュアルの[ホストサーバー収容機材変更に伴うVPS移行手順](https://manual.sakura.ad.jp/vps/support/technical/migration.html)をご覧ください。 | 
 
 ## Methods
 
 ### NewNfsServer
 
-`func NewNfsServer(id int32, name string, description string, serviceStatus string, settingStatus string, storage []NfsServerStorageInner, zone ServerZone, ipv4 NfsServerIpv4, contract NfsServerContract, powerStatus string, ) *NfsServer`
+`func NewNfsServer(id int32, name string, description string, serviceStatus string, settingStatus string, storage []NfsServerStorageInner, zone ServerZone, ipv4 NfsServerIpv4, contract NfsServerContract, powerStatus string, migrationStatus NullableString, ) *NfsServer`
 
 NewNfsServer instantiates a new NfsServer object
 This constructor will assign default values to properties that have it defined,
@@ -234,6 +235,36 @@ and a boolean to check if the value has been set.
 SetPowerStatus sets PowerStatus field to given value.
 
 
+### GetMigrationStatus
+
+`func (o *NfsServer) GetMigrationStatus() string`
+
+GetMigrationStatus returns the MigrationStatus field if non-nil, zero value otherwise.
+
+### GetMigrationStatusOk
+
+`func (o *NfsServer) GetMigrationStatusOk() (*string, bool)`
+
+GetMigrationStatusOk returns a tuple with the MigrationStatus field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMigrationStatus
+
+`func (o *NfsServer) SetMigrationStatus(v string)`
+
+SetMigrationStatus sets MigrationStatus field to given value.
+
+
+### SetMigrationStatusNil
+
+`func (o *NfsServer) SetMigrationStatusNil(b bool)`
+
+ SetMigrationStatusNil sets the value for MigrationStatus to be an explicit nil
+
+### UnsetMigrationStatus
+`func (o *NfsServer) UnsetMigrationStatus()`
+
+UnsetMigrationStatus ensures that no value is present for MigrationStatus, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

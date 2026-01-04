@@ -13,6 +13,7 @@ Method | HTTP request | Description
 [**PostNfsServerForceReboot**](NfsServerAPI.md#PostNfsServerForceReboot) | **Post** /nfs-servers/{nfs_server_id}/force-reboot | NFSを強制再起動する
 [**PostNfsServerPowerOn**](NfsServerAPI.md#PostNfsServerPowerOn) | **Post** /nfs-servers/{nfs_server_id}/power-on | NFSを起動する
 [**PostNfsServerShutdown**](NfsServerAPI.md#PostNfsServerShutdown) | **Post** /nfs-servers/{nfs_server_id}/shutdown | NFSをシャットダウンする
+[**PostNfsServerStartMigration**](NfsServerAPI.md#PostNfsServerStartMigration) | **Post** /nfs-servers/{nfs_server_id}/start-migration | NFSのホストサーバー移行を開始する
 [**PutNfsServer**](NfsServerAPI.md#PutNfsServer) | **Put** /nfs-servers/{nfs_server_id} | NFS情報を更新する
 [**PutNfsServerInterface**](NfsServerAPI.md#PutNfsServerInterface) | **Put** /nfs-servers/{nfs_server_id}/interface | NFSのインターフェース情報を更新する
 
@@ -613,6 +614,76 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **postServerShutdownRequest** | [**PostServerShutdownRequest**](PostServerShutdownRequest.md) |  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## PostNfsServerStartMigration
+
+> PostNfsServerStartMigration(ctx, nfsServerId).PostServerStartMigrationRequest(postServerStartMigrationRequest).Execute()
+
+NFSのホストサーバー移行を開始する
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/g1eng/sakura_vps_client_go"
+)
+
+func main() {
+	nfsServerId := int32(56) // int32 | NFSのID
+	postServerStartMigrationRequest := *openapiclient.NewPostServerStartMigrationRequest() // PostServerStartMigrationRequest |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.NfsServerAPI.PostNfsServerStartMigration(context.Background(), nfsServerId).PostServerStartMigrationRequest(postServerStartMigrationRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `NfsServerAPI.PostNfsServerStartMigration``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**nfsServerId** | **int32** | NFSのID | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPostNfsServerStartMigrationRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **postServerStartMigrationRequest** | [**PostServerStartMigrationRequest**](PostServerStartMigrationRequest.md) |  | 
 
 ### Return type
 

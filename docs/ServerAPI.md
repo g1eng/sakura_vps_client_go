@@ -13,6 +13,7 @@ Method | HTTP request | Description
 [**GetServerMonitoring**](ServerAPI.md#GetServerMonitoring) | **Get** /servers/{server_id}/monitorings/{server_monitoring_id} | サーバーのサーバー監視情報を取得する
 [**GetServerMonitoringHealth**](ServerAPI.md#GetServerMonitoringHealth) | **Get** /servers/{server_id}/monitorings/{server_monitoring_id}/health | サーバー監視の監視状態を取得する
 [**GetServerMonitoringList**](ServerAPI.md#GetServerMonitoringList) | **Get** /servers/{server_id}/monitorings | サーバーのサーバー監視情報一覧を取得する
+[**GetServerPacketFilter**](ServerAPI.md#GetServerPacketFilter) | **Get** /servers/{server_id}/packet-filter | サーバーのパケットフィルタを取得する
 [**GetServerPowerStatus**](ServerAPI.md#GetServerPowerStatus) | **Get** /servers/{server_id}/power-status | サーバーの電源状態を取得する
 [**GetServerVideoDevice**](ServerAPI.md#GetServerVideoDevice) | **Get** /servers/{server_id}/video-device | サーバーのビデオデバイスの設定を取得する
 [**GetServerVncConsoleKeymap**](ServerAPI.md#GetServerVncConsoleKeymap) | **Get** /servers/{server_id}/vnc-console-keymap | コンパネのVNCコンソールのキーマップ情報を取得する
@@ -21,11 +22,13 @@ Method | HTTP request | Description
 [**PostServerMountDisc**](ServerAPI.md#PostServerMountDisc) | **Post** /servers/{server_id}/mount-disc | サーバーにディスクをマウントする
 [**PostServerPowerOn**](ServerAPI.md#PostServerPowerOn) | **Post** /servers/{server_id}/power-on | サーバーを起動する
 [**PostServerShutdown**](ServerAPI.md#PostServerShutdown) | **Post** /servers/{server_id}/shutdown | サーバーをシャットダウンする
+[**PostServerStartMigration**](ServerAPI.md#PostServerStartMigration) | **Post** /servers/{server_id}/start-migration | サーバーのホストサーバー移行を開始する
 [**PutServer**](ServerAPI.md#PutServer) | **Put** /servers/{server_id} | サーバー情報を更新する
 [**PutServerInterface**](ServerAPI.md#PutServerInterface) | **Put** /servers/{server_id}/interfaces/{interface_id} | サーバーのインターフェース情報を更新する
 [**PutServerIpv4Ptr**](ServerAPI.md#PutServerIpv4Ptr) | **Put** /servers/{server_id}/ipv4-ptr | サーバーのipv4の逆引きホスト名を更新する
 [**PutServerIpv6Ptr**](ServerAPI.md#PutServerIpv6Ptr) | **Put** /servers/{server_id}/ipv6-ptr | サーバーのipv6の逆引きホスト名を更新する
 [**PutServerMonitoring**](ServerAPI.md#PutServerMonitoring) | **Put** /servers/{server_id}/monitorings/{server_monitoring_id} | サーバーのサーバー監視情報を更新する
+[**PutServerPacketFilter**](ServerAPI.md#PutServerPacketFilter) | **Put** /servers/{server_id}/packet-filter | サーバーのパケットフィルタを更新する
 [**PutServerVideoDevice**](ServerAPI.md#PutServerVideoDevice) | **Put** /servers/{server_id}/video-device | サーバーのビデオデバイスの設定を更新する
 [**PutServerVncConsoleKeymap**](ServerAPI.md#PutServerVncConsoleKeymap) | **Put** /servers/{server_id}/vnc-console-keymap | コンパネのVNCコンソールのキーマップ情報を変更する
 
@@ -681,6 +684,74 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## GetServerPacketFilter
+
+> PacketFilter GetServerPacketFilter(ctx, serverId).Execute()
+
+サーバーのパケットフィルタを取得する
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/g1eng/sakura_vps_client_go"
+)
+
+func main() {
+	serverId := int32(56) // int32 | サーバーID
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ServerAPI.GetServerPacketFilter(context.Background(), serverId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ServerAPI.GetServerPacketFilter``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetServerPacketFilter`: PacketFilter
+	fmt.Fprintf(os.Stdout, "Response from `ServerAPI.GetServerPacketFilter`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**serverId** | **int32** | サーバーID | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetServerPacketFilterRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**PacketFilter**](PacketFilter.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## GetServerPowerStatus
 
 > ServerPowerStatus GetServerPowerStatus(ctx, serverId).Execute()
@@ -1223,6 +1294,76 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## PostServerStartMigration
+
+> PostServerStartMigration(ctx, serverId).PostServerStartMigrationRequest(postServerStartMigrationRequest).Execute()
+
+サーバーのホストサーバー移行を開始する
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/g1eng/sakura_vps_client_go"
+)
+
+func main() {
+	serverId := int32(56) // int32 | サーバーID
+	postServerStartMigrationRequest := *openapiclient.NewPostServerStartMigrationRequest() // PostServerStartMigrationRequest |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.ServerAPI.PostServerStartMigration(context.Background(), serverId).PostServerStartMigrationRequest(postServerStartMigrationRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ServerAPI.PostServerStartMigration``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**serverId** | **int32** | サーバーID | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPostServerStartMigrationRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **postServerStartMigrationRequest** | [**PostServerStartMigrationRequest**](PostServerStartMigrationRequest.md) |  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## PutServer
 
 > Server PutServer(ctx, serverId).PutServerRequest(putServerRequest).Execute()
@@ -1564,6 +1705,76 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**ServerMonitoring**](ServerMonitoring.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## PutServerPacketFilter
+
+> PacketFilter PutServerPacketFilter(ctx, serverId).PacketFilter(packetFilter).Execute()
+
+サーバーのパケットフィルタを更新する
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/g1eng/sakura_vps_client_go"
+)
+
+func main() {
+	serverId := int32(56) // int32 | サーバーID
+	packetFilter := *openapiclient.NewPacketFilter(false) // PacketFilter |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ServerAPI.PutServerPacketFilter(context.Background(), serverId).PacketFilter(packetFilter).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ServerAPI.PutServerPacketFilter``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `PutServerPacketFilter`: PacketFilter
+	fmt.Fprintf(os.Stdout, "Response from `ServerAPI.PutServerPacketFilter`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**serverId** | **int32** | サーバーID | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPutServerPacketFilterRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **packetFilter** | [**PacketFilter**](PacketFilter.md) |  | 
+
+### Return type
+
+[**PacketFilter**](PacketFilter.md)
 
 ### Authorization
 
