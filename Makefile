@@ -1,5 +1,5 @@
 NAME=sakura_vps_client_go
-OPENAPI_VERSION=7.13.0
+OPENAPI_VERSION=7.18.0
 
 all: download_spec spec/spec-tmp.json diff_spec generate_models modify_gitignore put_readme
 

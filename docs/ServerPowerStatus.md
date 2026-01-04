@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Status** | **string** | 電源ステータス * power_on 電源ON * in_shutdown シャットダウン中 * power_off 電源OFF * installing OSインストール中 * in_scaleup スケールアップ中 * migration サーバー移行作業中 * unknown 不明（電源状態を取得できない） | 
+**Status** | **string** | 電源ステータス * power_on 電源ON * in_shutdown シャットダウン中 * power_off 電源OFF * installing OSインストール中 * in_scaleup スケールアップ中 * migration ホストサーバー移行中 * unknown 不明（電源状態を取得できない） | 
 
 ## Methods
 

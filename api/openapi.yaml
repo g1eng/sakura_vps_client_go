@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: さくらのVPS APIドキュメント
-  version: 5.0.0
+  version: 5.5.4
   x-logo:
     url: logo.svg
     altText: さくらのVPS APIドキュメント
@@ -148,31 +148,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_200_response'
+                $ref: "#/components/schemas/get_server_list_200_response"
           description: 成功
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -202,31 +202,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Server'
+                $ref: "#/components/schemas/Server"
           description: 成功
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -254,43 +254,43 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/put_server_request'
+              $ref: "#/components/schemas/put_server_request"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Server'
+                $ref: "#/components/schemas/Server"
           description: 成功
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -320,31 +320,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServerPowerStatus'
+                $ref: "#/components/schemas/ServerPowerStatus"
           description: 成功
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -358,7 +358,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails503'
+                $ref: "#/components/schemas/ProblemDetails503"
           description: ホストから電源状態が取得できない
       summary: サーバーの電源状態を取得する
       tags:
@@ -382,31 +382,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーが見つからない
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails409'
+                $ref: "#/components/schemas/ProblemDetails409"
           description: 電源操作が行えない状態（スケールアップ中など）
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -420,7 +420,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails503'
+                $ref: "#/components/schemas/ProblemDetails503"
           description: ホストが電源操作を受け付けない
       summary: サーバーを起動する
       tags:
@@ -441,7 +441,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/post_server_shutdown_request'
+              $ref: "#/components/schemas/post_server_shutdown_request"
       responses:
         "202":
           description: シャットダウンコマンドの送信を完了
@@ -449,31 +449,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーが見つからない
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails409'
+                $ref: "#/components/schemas/ProblemDetails409"
           description: 電源操作が行えない状態（スケールアップ中など）
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -487,7 +487,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails503'
+                $ref: "#/components/schemas/ProblemDetails503"
           description: ホストが電源操作を受け付けない
       summary: サーバーをシャットダウンする
       tags:
@@ -511,31 +511,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーが見つからない
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails409'
+                $ref: "#/components/schemas/ProblemDetails409"
           description: 電源操作が行えない状態（スケールアップ中など）
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -549,7 +549,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails503'
+                $ref: "#/components/schemas/ProblemDetails503"
           description: ホストが電源操作を受け付けない
       summary: サーバーを強制再起動する
       tags:
@@ -570,7 +570,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/post_server_mount_disc_request'
+              $ref: "#/components/schemas/post_server_mount_disc_request"
       responses:
         "200":
           description: マウント完了
@@ -578,37 +578,37 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーが見つからない
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails409'
+                $ref: "#/components/schemas/ProblemDetails409"
           description: ディスク操作が行えない状態（電源がOFFなど）
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -622,7 +622,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails503'
+                $ref: "#/components/schemas/ProblemDetails503"
           description: ホストがディスク操作を受け付けない
       summary: サーバーにディスクをマウントする
       tags:
@@ -644,31 +644,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Keymap'
+                $ref: "#/components/schemas/Keymap"
           description: 取得完了
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -696,43 +696,43 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Keymap'
+              $ref: "#/components/schemas/Keymap"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Keymap'
+                $ref: "#/components/schemas/Keymap"
           description: 成功。サーバーの再起動をすることで設定が反映される
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -746,7 +746,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails503'
+                $ref: "#/components/schemas/ProblemDetails503"
           description: ホストがキーマップ操作を受け付けない
       summary: コンパネのVNCコンソールのキーマップ情報を変更する
       tags:
@@ -767,43 +767,43 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/put_server_ipv4_ptr_request'
+              $ref: "#/components/schemas/put_server_ipv4_ptr_request"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/put_server_ipv4_ptr_200_response'
+                $ref: "#/components/schemas/put_server_ipv4_ptr_200_response"
           description: 設定完了
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -817,7 +817,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails503'
+                $ref: "#/components/schemas/ProblemDetails503"
           description: DNSの情報取得または設定に失敗した
       summary: サーバーのipv4の逆引きホスト名を更新する
       tags:
@@ -856,31 +856,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_interface_list_200_response'
+                $ref: "#/components/schemas/get_server_interface_list_200_response"
           description: 成功
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -918,31 +918,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServerInterface'
+                $ref: "#/components/schemas/ServerInterface"
           description: 成功
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: インターフェースが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -978,49 +978,49 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ServerInterface'
+              $ref: "#/components/schemas/ServerInterface"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServerInterface'
+                $ref: "#/components/schemas/ServerInterface"
           description: 成功
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: インターフェースが見つからない
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails409'
+                $ref: "#/components/schemas/ProblemDetails409"
           description: 接続が行えない状態
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -1034,7 +1034,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails503'
+                $ref: "#/components/schemas/ProblemDetails503"
           description: 一時的に接続操作を受け付けない
       summary: サーバーのインターフェース情報を更新する
       tags:
@@ -1055,43 +1055,43 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/put_server_ipv4_ptr_request'
+              $ref: "#/components/schemas/put_server_ipv4_ptr_request"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/put_server_ipv4_ptr_200_response'
+                $ref: "#/components/schemas/put_server_ipv4_ptr_200_response"
           description: 設定完了
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -1105,7 +1105,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails503'
+                $ref: "#/components/schemas/ProblemDetails503"
           description: DNSの情報取得または設定に失敗した
       summary: サーバーのipv6の逆引きホスト名を更新する
       tags:
@@ -1127,31 +1127,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_video_device_200_response'
+                $ref: "#/components/schemas/get_server_video_device_200_response"
           description: 成功
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -1165,7 +1165,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails503'
+                $ref: "#/components/schemas/ProblemDetails503"
           description: ビデオデバイス情報の取得に失敗した
       summary: サーバーのビデオデバイスの設定を取得する
       tags:
@@ -1185,43 +1185,43 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/put_server_video_device_request'
+              $ref: "#/components/schemas/put_server_video_device_request"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/put_server_video_device_request'
+                $ref: "#/components/schemas/put_server_video_device_request"
           description: 成功。サーバーの再起動をすることで設定が反映される
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -1235,7 +1235,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails503'
+                $ref: "#/components/schemas/ProblemDetails503"
           description: ビデオデバイス情報の設定に失敗した
       summary: サーバーのビデオデバイスの設定を更新する
       tags:
@@ -1257,31 +1257,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Limitation'
+                $ref: "#/components/schemas/Limitation"
           description: 成功
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -1295,7 +1295,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails503'
+                $ref: "#/components/schemas/ProblemDetails503"
           description: サーバーの制限情報の取得に失敗した
       summary: サーバーの制限情報を取得する
       tags:
@@ -1342,31 +1342,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_monitoring_list_200_response'
+                $ref: "#/components/schemas/get_server_monitoring_list_200_response"
           description: 成功
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -1394,49 +1394,49 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ServerMonitoring'
+              $ref: "#/components/schemas/ServerMonitoring"
       responses:
         "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServerMonitoring'
+                $ref: "#/components/schemas/ServerMonitoring"
           description: 成功
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーが見つからない
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails409'
+                $ref: "#/components/schemas/ProblemDetails409"
           description: サーバー監視を作成できない状態（作成上限数超過など）
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -1476,31 +1476,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーまたはサーバー監視が見つからない
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails409'
+                $ref: "#/components/schemas/ProblemDetails409"
           description: サーバー監視を削除できない状態（更新ステータスが更新完了でないなど）
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -1554,31 +1554,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServerMonitoring'
+                $ref: "#/components/schemas/ServerMonitoring"
           description: 成功
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーまたはサーバー監視が見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -1614,49 +1614,49 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ServerMonitoring'
+              $ref: "#/components/schemas/ServerMonitoring"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServerMonitoring'
+                $ref: "#/components/schemas/ServerMonitoring"
           description: 成功
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーが見つからない
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails409'
+                $ref: "#/components/schemas/ProblemDetails409"
           description: サーバー監視を更新できない状態（更新ステータスが更新完了でないなど）
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -1694,37 +1694,37 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServerMonitoringHealth'
+                $ref: "#/components/schemas/ServerMonitoringHealth"
           description: 成功
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーまたはサーバー監視が見つからない
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails409'
+                $ref: "#/components/schemas/ProblemDetails409"
           description: 監視状態を取得できない状態（更新ステータスが更新完了でないなど）
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -1735,6 +1735,219 @@ paths:
                 type: integer
               style: simple
       summary: サーバー監視の監視状態を取得する
+      tags:
+      - server
+  /servers/{server_id}/packet-filter:
+    get:
+      operationId: get-server-packet-filter
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PacketFilter"
+          description: 成功
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails400"
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/get_server_list_401_response"
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/get_server_list_403_response"
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails404"
+          description: サーバーが見つからない
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails429"
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+      summary: サーバーのパケットフィルタを取得する
+      tags:
+      - server
+    put:
+      operationId: put-server-packet-filter
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PacketFilter"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PacketFilter"
+          description: 成功
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails400"
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/get_server_list_401_response"
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/get_server_list_403_response"
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails404"
+          description: サーバーが見つからない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails409"
+          description: パケットフィルタを更新できない状態（OSインストール中やスケールアップ実施中など）
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails429"
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails503"
+          description: パケットフィルタの反映に失敗した
+      summary: サーバーのパケットフィルタを更新する
+      tags:
+      - server
+  /servers/{server_id}/start-migration:
+    post:
+      description: "`ホストサーバー移行`のステータスが`準備完了`のサーバーに対し、ホストサーバーの移行を開始します。  \n事前にサーバーの\
+        シャットダウンが必要です。  \n`ホストサーバー移行`についてはVPSマニュアルの[ホストサーバー収容機材変更に伴うVPS移行手順 - ホストサー\
+        バー移行作業](https://manual.sakura.ad.jp/vps/support/technical/migration.html#server-migration)を\
+        ご覧ください。"
+      operationId: post-server-start-migration
+      parameters:
+      - description: サーバーID
+        explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/post_server_start_migration_request"
+      responses:
+        "200":
+          description: 成功
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails400"
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/get_server_list_401_response"
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/get_server_list_403_response"
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails404"
+          description: サーバーが見つからない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails409"
+          description: ホストサーバー移行を開始できない状態（ホストサーバー移行のステータスが`ready`でない、電源がOFFになっていないなど）
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails429"
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails503"
+          description: ホストサーバーから電源状態が取得できない
+      summary: サーバーのホストサーバー移行を開始する
       tags:
       - server
   /nfs-servers:
@@ -1825,31 +2038,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_nfs_server_list_200_response'
+                $ref: "#/components/schemas/get_nfs_server_list_200_response"
           description: 成功
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -1879,31 +2092,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NfsServer'
+                $ref: "#/components/schemas/NfsServer"
           description: 成功
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: NFSが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -1931,43 +2144,43 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/put_server_request'
+              $ref: "#/components/schemas/put_server_request"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NfsServer'
+                $ref: "#/components/schemas/NfsServer"
           description: 成功
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: NFSが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -1996,7 +2209,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/post_nfs_server_change_ipv4_request'
+              $ref: "#/components/schemas/post_nfs_server_change_ipv4_request"
       responses:
         "202":
           description: ipv4の設定のリクエストの送信を完了
@@ -2004,37 +2217,37 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: NFSが見つからない
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails409'
+                $ref: "#/components/schemas/ProblemDetails409"
           description: ipv4の設定が行えない状態にある（すでにipv4の設定中である場合やNFSが起動されていない場合など）
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -2048,7 +2261,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails503'
+                $ref: "#/components/schemas/ProblemDetails503"
           description: ipv4の設定のリクエストの送信に失敗した
       summary: NFSのipv4を更新する
       tags:
@@ -2070,31 +2283,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NfsServerPowerStatus'
+                $ref: "#/components/schemas/NfsServerPowerStatus"
           description: 成功
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: サーバーが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -2108,7 +2321,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails503'
+                $ref: "#/components/schemas/ProblemDetails503"
           description: 電源状態が取得できない
       summary: NFSの電源状態を取得する
       tags:
@@ -2132,31 +2345,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: NFSが見つからない
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails409'
+                $ref: "#/components/schemas/ProblemDetails409"
           description: 起動リクエストを受け付けない状態にある（設定状況が設定完了になっていない場合や、既に起動中の場合など）
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -2170,7 +2383,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails503'
+                $ref: "#/components/schemas/ProblemDetails503"
           description: NFS起動コマンドの送信に失敗した
       summary: NFSを起動する
       tags:
@@ -2194,31 +2407,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: NFSが見つからない
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails409'
+                $ref: "#/components/schemas/ProblemDetails409"
           description: 再起動リクエストを受け付けない状態にある（設定状況が設定完了になっていない場合など）
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -2232,7 +2445,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails503'
+                $ref: "#/components/schemas/ProblemDetails503"
           description: NFS再起動コマンドの送信に失敗した
       summary: NFSを強制再起動する
       tags:
@@ -2253,7 +2466,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/post_server_shutdown_request'
+              $ref: "#/components/schemas/post_server_shutdown_request"
       responses:
         "202":
           description: NFSシャットダウンコマンドの送信を完了
@@ -2261,31 +2474,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: NFSが見つからない
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails409'
+                $ref: "#/components/schemas/ProblemDetails409"
           description: シャットダウンリクエストを受け付けない状態にある（設定状況が設定完了になっていない場合や、すでにシャットダウンされている場合など）
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -2299,7 +2512,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails503'
+                $ref: "#/components/schemas/ProblemDetails503"
           description: NFSシャットダウンコマンドの送信に失敗した
       summary: NFSをシャットダウンする
       tags:
@@ -2321,31 +2534,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NfsServerInterface'
+                $ref: "#/components/schemas/NfsServerInterface"
           description: 成功
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: NFSが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -2373,49 +2586,49 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NfsServerInterface'
+              $ref: "#/components/schemas/NfsServerInterface"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NfsServerInterface'
+                $ref: "#/components/schemas/NfsServerInterface"
           description: 成功
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: NFSが見つからない
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails409'
+                $ref: "#/components/schemas/ProblemDetails409"
           description: 接続が行えない状態（電源がオフになっていない）
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -2429,7 +2642,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails503'
+                $ref: "#/components/schemas/ProblemDetails503"
           description: 一時的に接続操作を受け付けない
       summary: NFSのインターフェース情報を更新する
       tags:
@@ -2451,37 +2664,37 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NfsStorageInfo'
+                $ref: "#/components/schemas/NfsStorageInfo"
           description: 成功
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: NFSが見つからない
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails409'
+                $ref: "#/components/schemas/ProblemDetails409"
           description: ストレージ容量情報を取得できない状態
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -2495,9 +2708,86 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails503'
+                $ref: "#/components/schemas/ProblemDetails503"
           description: 一時的にストレージ容量情報を取得できない
       summary: NFSのストレージ容量情報を取得する
+      tags:
+      - nfs-server
+  /nfs-servers/{nfs_server_id}/start-migration:
+    post:
+      description: "`ホストサーバー移行`のステータスが`準備完了`のNFSサーバーに対し、ホストサーバーの移行を開始します。  \n事前にNFSサ\
+        ーバーのシャットダウンが必要です。  \n`ホストサーバー移行`についてはVPSマニュアルの[ホストサーバー収容機材変更に伴うVPS移行手順 - ホ\
+        ストサーバー移行作業](https://manual.sakura.ad.jp/vps/support/technical/migration.html#server-migration)を\
+        ご覧ください。"
+      operationId: post-nfs-server-start-migration
+      parameters:
+      - description: NFSのID
+        explode: false
+        in: path
+        name: nfs_server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/post_server_start_migration_request"
+      responses:
+        "200":
+          description: 成功
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails400"
+          description: 入力値検証エラー
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/get_server_list_401_response"
+          description: 未ログイン
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/get_server_list_403_response"
+          description: 権限がない
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails404"
+          description: NFSが見つからない
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails409"
+          description: ホストサーバー移行を開始できない状態（ホストサーバー移行のステータスが`ready`でない、電源がOFFになっていないなど）
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails429"
+          description: リクエスト可能数に達している
+          headers:
+            Retry-After:
+              description: リクエストが可能になるまでの秒数
+              explode: false
+              schema:
+                example: 60
+                type: integer
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails503"
+          description: ホストサーバーから電源状態が取得できない
+      summary: NFSのホストサーバー移行を開始する
       tags:
       - nfs-server
   /switches:
@@ -2592,31 +2882,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_switch_list_200_response'
+                $ref: "#/components/schemas/get_switch_list_200_response"
           description: 成功
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -2636,43 +2926,43 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/post_switch_request'
+              $ref: "#/components/schemas/post_switch_request"
       responses:
         "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/post_switch_201_response'
+                $ref: "#/components/schemas/post_switch_201_response"
           description: 作成完了
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails409'
+                $ref: "#/components/schemas/ProblemDetails409"
           description: 作成上限に達している
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -2704,31 +2994,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: スイッチが見つからない
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails409'
+                $ref: "#/components/schemas/ProblemDetails409"
           description: 削除が行えない状態（接続が残っている）
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -2757,31 +3047,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Switch'
+                $ref: "#/components/schemas/Switch"
           description: 成功
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: スイッチが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -2809,43 +3099,43 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Switch'
+              $ref: "#/components/schemas/Switch"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Switch'
+                $ref: "#/components/schemas/Switch"
           description: 成功
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: スイッチが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -2885,25 +3175,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_disc_list_200_response'
+                $ref: "#/components/schemas/get_disc_list_200_response"
           description: 成功
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -2942,25 +3232,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_zone_list_200_response'
+                $ref: "#/components/schemas/get_zone_list_200_response"
           description: 成功
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -3029,31 +3319,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_api_key_list_200_response'
+                $ref: "#/components/schemas/get_api_key_list_200_response"
           description: 成功
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -3072,43 +3362,43 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ApiKey'
+              $ref: "#/components/schemas/ApiKey"
       responses:
         "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiKey'
+                $ref: "#/components/schemas/ApiKey"
           description: 成功
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails409'
+                $ref: "#/components/schemas/ProblemDetails409"
           description: APIキーを作成できない状態。上限を超えているなど。
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -3140,25 +3430,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: APIキーが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -3187,31 +3477,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiKey'
+                $ref: "#/components/schemas/ApiKey"
           description: 成功
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: APIキーが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -3239,43 +3529,43 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ApiKey'
+              $ref: "#/components/schemas/ApiKey"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiKey'
+                $ref: "#/components/schemas/ApiKey"
           description: 成功
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: APIキーが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -3305,31 +3595,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiKey'
+                $ref: "#/components/schemas/ApiKey"
           description: 成功
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: APIキーが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -3390,25 +3680,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_role_list_200_response'
+                $ref: "#/components/schemas/get_role_list_200_response"
           description: 成功
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -3427,43 +3717,43 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Role'
+              $ref: "#/components/schemas/Role"
       responses:
         "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Role'
+                $ref: "#/components/schemas/Role"
           description: 成功
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails409'
+                $ref: "#/components/schemas/ProblemDetails409"
           description: ロールを作成できない状態。上限を超えているなど。
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -3495,31 +3785,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: ロールが見つからない
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails409'
+                $ref: "#/components/schemas/ProblemDetails409"
           description: ロールを削除できない状態。紐づいているAPIキーがあるなど。
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -3548,31 +3838,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Role'
+                $ref: "#/components/schemas/Role"
           description: 成功
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: ロールが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -3600,43 +3890,43 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Role'
+              $ref: "#/components/schemas/Role"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Role'
+                $ref: "#/components/schemas/Role"
           description: 成功
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails400'
+                $ref: "#/components/schemas/ProblemDetails400"
           description: 入力値検証エラー
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails404'
+                $ref: "#/components/schemas/ProblemDetails404"
           description: ロールが見つからない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -3693,25 +3983,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_permission_list_200_response'
+                $ref: "#/components/schemas/get_permission_list_200_response"
           description: 成功
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_401_response'
+                $ref: "#/components/schemas/get_server_list_401_response"
           description: 未ログイン
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_server_list_403_response'
+                $ref: "#/components/schemas/get_server_list_403_response"
           description: 権限がない
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails429'
+                $ref: "#/components/schemas/ProblemDetails429"
           description: リクエスト可能数に達している
           headers:
             Retry-After:
@@ -3968,15 +4258,6 @@ components:
       schema:
         type: string
       style: form
-    DiscID:
-      description: ディスクID
-      explode: false
-      in: path
-      name: disc_id
-      required: true
-      schema:
-        type: integer
-      style: simple
     RoleIDPath:
       description: ロールID
       explode: false
@@ -4077,25 +4358,25 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ProblemDetails400'
+            $ref: "#/components/schemas/ProblemDetails400"
       description: 入力値検証エラー
     Generic401:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/get_server_list_401_response'
+            $ref: "#/components/schemas/get_server_list_401_response"
       description: 未ログイン
     Generic403:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/get_server_list_403_response'
+            $ref: "#/components/schemas/get_server_list_403_response"
       description: 権限がない
     Generic429:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ProblemDetails429'
+            $ref: "#/components/schemas/ProblemDetails429"
       description: リクエスト可能数に達している
       headers:
         Retry-After:
@@ -4131,7 +4412,7 @@ components:
       type: object
     InvalidParameterDetail:
       items:
-        $ref: '#/components/schemas/InvalidParameterDetail_inner'
+        $ref: "#/components/schemas/InvalidParameterDetail_inner"
       type: array
     ProblemDetails400:
       example:
@@ -4158,7 +4439,7 @@ components:
           example: Invalid input.
           type: string
         errors:
-          $ref: '#/components/schemas/ProblemDetails400_errors'
+          $ref: "#/components/schemas/ProblemDetails400_errors"
       type: object
     ProblemDetails404:
       example:
@@ -4257,6 +4538,7 @@ components:
           plan_name: さくらのVPS(v5)  1G IK01
         description: description
         memory_mebibytes: 1024
+        migration_status: preparing
         cpu_cores: 2
         storage:
         - size_gibibytes: 100
@@ -4334,10 +4616,10 @@ components:
         storage:
           description: ストレージ情報
           items:
-            $ref: '#/components/schemas/Server_storage_inner'
+            $ref: "#/components/schemas/Server_storage_inner"
           type: array
         zone:
-          $ref: '#/components/schemas/Server_zone'
+          $ref: "#/components/schemas/Server_zone"
         options:
           description: オプション（追加ソフトウェア）
           items:
@@ -4349,11 +4631,11 @@ components:
           example: v5
           type: string
         ipv4:
-          $ref: '#/components/schemas/Server_ipv4'
+          $ref: "#/components/schemas/Server_ipv4"
         ipv6:
-          $ref: '#/components/schemas/Server_ipv6'
+          $ref: "#/components/schemas/Server_ipv6"
         contract:
-          $ref: '#/components/schemas/Server_contract'
+          $ref: "#/components/schemas/Server_contract"
         power_status:
           description: |-
             電源ステータス
@@ -4362,7 +4644,7 @@ components:
             * power_off 電源OFF
             * installing OSインストール中
             * in_scaleup スケールアップ中
-            * migration サーバー移行作業中
+            * migration ホストサーバー移行中
             * unknown 不明（電源状態を取得できない）
             このエンドポイントが返す電源ステータスはキャッシュされた情報のため、最新の正確な電源ステータスが必要な場合は
             **サーバーの電源状態を取得する**`/servers/{server_id}/power-status`をご利用ください
@@ -4375,6 +4657,23 @@ components:
           - migration
           - unknown
           type: string
+        migration_status:
+          description: |-
+            ホストサーバー移行のステータス
+            * null 移行予定なし、または準備が始まっていない状態。移行が完了した場合もこの状態に戻ります。
+            * preparing 準備中。移行が完了するまでOS再インストールとスケールアップの実行が制限されます。
+            * ready 準備完了。お客様の任意のタイミングで移行を開始できます。
+            * in_progress 移行実行中
+            * error 移行実行中にエラーが発生
+
+            `ホストサーバー移行`についてはVPSマニュアルの[ホストサーバー収容機材変更に伴うVPS移行手順](https://manual.sakura.ad.jp/vps/support/technical/migration.html)をご覧ください。
+          enum:
+          - preparing
+          - ready
+          - in_progress
+          - error
+          nullable: true
+          type: string
       required:
       - contract
       - cpu_cores
@@ -4383,6 +4682,7 @@ components:
       - ipv4
       - ipv6
       - memory_mebibytes
+      - migration_status
       - name
       - options
       - power_status
@@ -4404,7 +4704,7 @@ components:
             * power_off 電源OFF
             * installing OSインストール中
             * in_scaleup スケールアップ中
-            * migration サーバー移行作業中
+            * migration ホストサーバー移行中
             * unknown 不明（電源状態を取得できない）
           enum:
           - power_on
@@ -4490,6 +4790,7 @@ components:
         name: name
         service_status: in_preparation
         description: description
+        migration_status: preparing
         id: 0
         storage:
         - size_gibibytes: 100
@@ -4535,14 +4836,14 @@ components:
         storage:
           description: ストレージ情報
           items:
-            $ref: '#/components/schemas/NfsServer_storage_inner'
+            $ref: "#/components/schemas/NfsServer_storage_inner"
           type: array
         zone:
-          $ref: '#/components/schemas/Server_zone'
+          $ref: "#/components/schemas/Server_zone"
         ipv4:
-          $ref: '#/components/schemas/NfsServer_ipv4'
+          $ref: "#/components/schemas/NfsServer_ipv4"
         contract:
-          $ref: '#/components/schemas/NfsServer_contract'
+          $ref: "#/components/schemas/NfsServer_contract"
         power_status:
           description: |-
             電源ステータス
@@ -4557,11 +4858,29 @@ components:
           - power_off
           - unknown
           type: string
+        migration_status:
+          description: |-
+            ホストサーバー移行のステータス
+            * null 移行予定なし、または準備が始まっていない状態。移行が完了した場合もこの状態に戻ります。
+            * preparing 準備中。移行が完了するまでOS再インストールとスケールアップの実行が制限されます。
+            * ready 準備完了。お客様の任意のタイミングで移行を開始できます。
+            * in_progress 移行実行中
+            * error 移行実行中にエラーが発生
+
+            `ホストサーバー移行`についてはVPSマニュアルの[ホストサーバー収容機材変更に伴うVPS移行手順](https://manual.sakura.ad.jp/vps/support/technical/migration.html)をご覧ください。
+          enum:
+          - preparing
+          - ready
+          - in_progress
+          - error
+          nullable: true
+          type: string
       required:
       - contract
       - description
       - id
       - ipv4
+      - migration_status
       - name
       - power_status
       - service_status
@@ -4579,11 +4898,13 @@ components:
             * power_on 電源ON
             * in_shutdown シャットダウン中
             * power_off 電源OFF
+            * migration ホストサーバー移行中
             * unknown 不明（電源状態を取得できない）
           enum:
           - power_on
           - in_shutdown
           - power_off
+          - migration
           - unknown
           type: string
       required:
@@ -4693,7 +5014,7 @@ components:
           readOnly: true
           type: string
         zone:
-          $ref: '#/components/schemas/Switch_zone'
+          $ref: "#/components/schemas/Switch_zone"
         server_interfaces:
           description: 接続されているサーバーのインターフェースid
           items:
@@ -4707,7 +5028,7 @@ components:
           readOnly: true
           type: array
         external_connection:
-          $ref: '#/components/schemas/Switch_external_connection'
+          $ref: "#/components/schemas/Switch_external_connection"
       required:
       - description
       - external_connection
@@ -4796,7 +5117,7 @@ components:
           readOnly: true
           type: string
         settings:
-          $ref: '#/components/schemas/ServerMonitoring_settings'
+          $ref: "#/components/schemas/ServerMonitoring_settings"
       required:
       - description
       - id
@@ -4980,7 +5301,7 @@ components:
         required:
         - protocol
         type: object
-      - $ref: '#/components/schemas/HealthCheckHttpBase'
+      - $ref: "#/components/schemas/HealthCheckHttpBase"
     HealthCheckHttps:
       allOf:
       - properties:
@@ -4999,7 +5320,7 @@ components:
         - protocol
         - sni
         type: object
-      - $ref: '#/components/schemas/HealthCheckHttpBase'
+      - $ref: "#/components/schemas/HealthCheckHttpBase"
     ServerMonitoringHealth:
       example:
         last_status_changed_at: 2024-04-01T23:59:59+09:00
@@ -5032,6 +5353,87 @@ components:
       - last_checked_at
       - last_status_changed_at
       - status
+    PacketFilter:
+      example:
+        rules:
+        - protocol: tcp
+          name: name
+          ports:
+          - "80"
+          - 8080:8085
+          source_ip_prefix_length: 0
+          source_ip: 0.0.0.0
+        - protocol: tcp
+          name: name
+          ports:
+          - "80"
+          - 8080:8085
+          source_ip_prefix_length: 0
+          source_ip: 0.0.0.0
+        enabled: true
+      properties:
+        enabled:
+          description: |-
+            パケットフィルタのON/OFF
+            * true ON
+            * false OFF
+          type: boolean
+        rules:
+          description: "アクセスを許可するルールのリスト\n- 制限\n  - パケットフィルタOFF(enabled: false)の場合\
+            は指定できません\n  - 指定できるルール数には制限があります。全ルールのポート定義数の合計が40個まで定義できます。  \n    ポー\
+            ト個別指定\"80\"とポート範囲指定\"8080:8085\"はそれぞれ1個とカウントします。"
+          items:
+            $ref: "#/components/schemas/PacketFilterRule"
+          type: array
+      required:
+      - enabled
+      type: object
+    PacketFilterRule:
+      example:
+        protocol: tcp
+        name: name
+        ports:
+        - "80"
+        - 8080:8085
+        source_ip_prefix_length: 0
+        source_ip: 0.0.0.0
+      properties:
+        protocol:
+          enum:
+          - tcp
+          - udp
+          type: string
+        name:
+          maxLength: 255
+          type: string
+        ports:
+          description: アクセスを許可するポートのリスト
+          example:
+          - "80"
+          - 8080:8085
+          items:
+            description: "- ポートの個別指定: \"80\"\n- ポートの範囲指定: \"30000:30010\"  \n- 指定で\
+              きるポートは1～32767まで"
+            type: string
+          type: array
+        source_ip:
+          description: アクセスを許可するipアドレス。ipアドレスで制限しない場合は"0.0.0.0"
+          example: 0.0.0.0
+          format: ipv4
+          type: string
+        source_ip_prefix_length:
+          description: source_ipのプレフィックス長。ipアドレスで制限しない場合は0
+          example: 0
+          maximum: 32
+          minimum: 0
+          type: integer
+      required:
+      - name
+      - ports
+      - protocol
+      - source_ip
+      - source_ip_prefix_length
+      type: object
     Zone:
       example:
         can_use_hybrid: true
@@ -5137,7 +5539,7 @@ components:
           - disabled
           type: string
         allowed_resources:
-          $ref: '#/components/schemas/Role_allowed_resources'
+          $ref: "#/components/schemas/Role_allowed_resources"
       required:
       - allowed_permissions
       - allowed_resources
@@ -5216,12 +5618,12 @@ components:
       - properties:
           results:
             items:
-              $ref: '#/components/schemas/Server'
+              $ref: "#/components/schemas/Server"
             type: array
         required:
         - results
         type: object
-      - $ref: '#/components/schemas/Pagination'
+      - $ref: "#/components/schemas/Pagination"
       example:
         next: https://api.example.com/?page=3&per_page=10
         previous: https://api.example.com/?per_page=10
@@ -5234,6 +5636,7 @@ components:
             plan_name: さくらのVPS(v5)  1G IK01
           description: description
           memory_mebibytes: 1024
+          migration_status: preparing
           cpu_cores: 2
           storage:
           - size_gibibytes: 100
@@ -5278,6 +5681,7 @@ components:
             plan_name: さくらのVPS(v5)  1G IK01
           description: description
           memory_mebibytes: 1024
+          migration_status: preparing
           cpu_cores: 2
           storage:
           - size_gibibytes: 100
@@ -5397,12 +5801,12 @@ components:
       - properties:
           results:
             items:
-              $ref: '#/components/schemas/ServerInterface'
+              $ref: "#/components/schemas/ServerInterface"
             type: array
         required:
         - results
         type: object
-      - $ref: '#/components/schemas/Pagination'
+      - $ref: "#/components/schemas/Pagination"
       example:
         next: https://api.example.com/?page=3&per_page=10
         previous: https://api.example.com/?per_page=10
@@ -5452,12 +5856,12 @@ components:
       - properties:
           results:
             items:
-              $ref: '#/components/schemas/ServerMonitoring'
+              $ref: "#/components/schemas/ServerMonitoring"
             type: array
         required:
         - results
         type: object
-      - $ref: '#/components/schemas/Pagination'
+      - $ref: "#/components/schemas/Pagination"
       example:
         next: https://api.example.com/?page=3&per_page=10
         previous: https://api.example.com/?per_page=10
@@ -5501,17 +5905,24 @@ components:
           description: description
           id: 0
           monitoring_resource_id: monitoring_resource_id
+    post_server_start_migration_request:
+      properties:
+        power_on_upon_completion:
+          default: false
+          description: 移行完了時に自動で電源をONにする
+          type: boolean
+      type: object
     get_nfs_server_list_200_response:
       allOf:
       - properties:
           results:
             items:
-              $ref: '#/components/schemas/NfsServer'
+              $ref: "#/components/schemas/NfsServer"
             type: array
         required:
         - results
         type: object
-      - $ref: '#/components/schemas/Pagination'
+      - $ref: "#/components/schemas/Pagination"
       example:
         next: https://api.example.com/?page=3&per_page=10
         previous: https://api.example.com/?per_page=10
@@ -5532,6 +5943,7 @@ components:
           name: name
           service_status: in_preparation
           description: description
+          migration_status: preparing
           id: 0
           storage:
           - size_gibibytes: 100
@@ -5553,6 +5965,7 @@ components:
           name: name
           service_status: in_preparation
           description: description
+          migration_status: preparing
           id: 0
           storage:
           - size_gibibytes: 100
@@ -5576,12 +5989,12 @@ components:
       - properties:
           results:
             items:
-              $ref: '#/components/schemas/Switch'
+              $ref: "#/components/schemas/Switch"
             type: array
         required:
         - results
         type: object
-      - $ref: '#/components/schemas/Pagination'
+      - $ref: "#/components/schemas/Pagination"
       example:
         next: https://api.example.com/?page=3&per_page=10
         previous: https://api.example.com/?per_page=10
@@ -5717,7 +6130,7 @@ components:
           readOnly: true
           type: string
         zone:
-          $ref: '#/components/schemas/post_switch_201_response_zone'
+          $ref: "#/components/schemas/post_switch_201_response_zone"
         server_interfaces:
           description: 接続されているサーバーのインターフェースid
           example: []
@@ -5753,12 +6166,12 @@ components:
       - properties:
           results:
             items:
-              $ref: '#/components/schemas/Disc'
+              $ref: "#/components/schemas/Disc"
             type: array
         required:
         - results
         type: object
-      - $ref: '#/components/schemas/Pagination'
+      - $ref: "#/components/schemas/Pagination"
       example:
         next: https://api.example.com/?page=3&per_page=10
         previous: https://api.example.com/?per_page=10
@@ -5777,12 +6190,12 @@ components:
       - properties:
           results:
             items:
-              $ref: '#/components/schemas/Zone'
+              $ref: "#/components/schemas/Zone"
             type: array
         required:
         - results
         type: object
-      - $ref: '#/components/schemas/Pagination'
+      - $ref: "#/components/schemas/Pagination"
       example:
         next: https://api.example.com/?page=3&per_page=10
         previous: https://api.example.com/?per_page=10
@@ -5803,12 +6216,12 @@ components:
       - properties:
           results:
             items:
-              $ref: '#/components/schemas/ApiKey'
+              $ref: "#/components/schemas/ApiKey"
             type: array
         required:
         - results
         type: object
-      - $ref: '#/components/schemas/Pagination'
+      - $ref: "#/components/schemas/Pagination"
       example:
         next: https://api.example.com/?page=3&per_page=10
         previous: https://api.example.com/?per_page=10
@@ -5827,12 +6240,12 @@ components:
       - properties:
           results:
             items:
-              $ref: '#/components/schemas/Role'
+              $ref: "#/components/schemas/Role"
             type: array
         required:
         - results
         type: object
-      - $ref: '#/components/schemas/Pagination'
+      - $ref: "#/components/schemas/Pagination"
       example:
         next: https://api.example.com/?page=3&per_page=10
         previous: https://api.example.com/?per_page=10
@@ -5887,12 +6300,12 @@ components:
       - properties:
           results:
             items:
-              $ref: '#/components/schemas/Permission'
+              $ref: "#/components/schemas/Permission"
             type: array
         required:
         - results
         type: object
-      - $ref: '#/components/schemas/Pagination'
+      - $ref: "#/components/schemas/Pagination"
       example:
         next: https://api.example.com/?page=3&per_page=10
         previous: https://api.example.com/?per_page=10
@@ -5916,7 +6329,7 @@ components:
       type: object
     ProblemDetails400_errors:
       additionalProperties:
-        $ref: '#/components/schemas/InvalidParameterDetail'
+        $ref: "#/components/schemas/InvalidParameterDetail"
       description: |-
         入力値に対するエラーを構造化した情報
         (code`invalid`の場合のみ)
@@ -5930,7 +6343,7 @@ components:
       properties:
         non_field_errors:
           items:
-            $ref: '#/components/schemas/InvalidParameterDetail_inner'
+            $ref: "#/components/schemas/InvalidParameterDetail_inner"
           type: array
       type: object
     Server_storage_inner:
@@ -6263,7 +6676,7 @@ components:
           type: string
         services:
           items:
-            $ref: '#/components/schemas/Switch_external_connection_services_inner'
+            $ref: "#/components/schemas/Switch_external_connection_services_inner"
           readOnly: true
           type: array
       readOnly: true
@@ -6274,13 +6687,13 @@ components:
       type: object
     ServerMonitoring_settings_health_check:
       oneOf:
-      - $ref: '#/components/schemas/HealthCheckPing'
-      - $ref: '#/components/schemas/HealthCheckTcp'
-      - $ref: '#/components/schemas/HealthCheckSsh'
-      - $ref: '#/components/schemas/HealthCheckSmtp'
-      - $ref: '#/components/schemas/HealthCheckPop3'
-      - $ref: '#/components/schemas/HealthCheckHttp'
-      - $ref: '#/components/schemas/HealthCheckHttps'
+      - $ref: "#/components/schemas/HealthCheckPing"
+      - $ref: "#/components/schemas/HealthCheckTcp"
+      - $ref: "#/components/schemas/HealthCheckSsh"
+      - $ref: "#/components/schemas/HealthCheckSmtp"
+      - $ref: "#/components/schemas/HealthCheckPop3"
+      - $ref: "#/components/schemas/HealthCheckHttp"
+      - $ref: "#/components/schemas/HealthCheckHttps"
       type: object
     ServerMonitoring_settings_notification_email:
       description: emailでの通知の設定。会員情報に登録されているメールアドレス宛に送信されます。
@@ -6347,9 +6760,9 @@ components:
         interval_hours: 11
       properties:
         email:
-          $ref: '#/components/schemas/ServerMonitoring_settings_notification_email'
+          $ref: "#/components/schemas/ServerMonitoring_settings_notification_email"
         incoming_webhook:
-          $ref: '#/components/schemas/ServerMonitoring_settings_notification_incoming_webhook'
+          $ref: "#/components/schemas/ServerMonitoring_settings_notification_incoming_webhook"
         interval_hours:
           description: 再通知間隔(時間)
           maximum: 72
@@ -6383,9 +6796,9 @@ components:
             * false 監視OFF
           type: boolean
         health_check:
-          $ref: '#/components/schemas/ServerMonitoring_settings_health_check'
+          $ref: "#/components/schemas/ServerMonitoring_settings_health_check"
         notification:
-          $ref: '#/components/schemas/ServerMonitoring_settings_notification'
+          $ref: "#/components/schemas/ServerMonitoring_settings_notification"
       required:
       - enabled
       - health_check
